@@ -42,7 +42,7 @@ Add the bundle's routing to your app's `config/routing.yml` file:
 The bundle creates these new routes:
 
     /login
-    /login/callback
+    /oauth_callback
     /logout
 
 [Apply for an OAuth consumer](https://meta.wikimedia.org/wiki/Special:OAuthConsumerRegistration/propose)
@@ -62,8 +62,8 @@ add a `toolforge.oauth.logged_in_user` key to your `config.yml` file, e.g.:
 
 Add a login link to the relevant Twig template (often `base.html.twig`), e.g.:
 
-    {% if logged_in_user %}
-      {{ msg( 'logged-in-as', [ logged_in_user.username ] ) }}
+    {% if logged_in_user() %}
+      {{ msg( 'logged-in-as', [ logged_in_user().username ] ) }}
       <a href="{{ path('logout') }}">{{ msg('logout') }}</a>
     {% else %}
       <a href="{{ path('login') }}">{{ msg('login') }}</a>
