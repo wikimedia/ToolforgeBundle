@@ -21,7 +21,6 @@ class AuthController extends Controller {
      */
     public function loginAction(Client $oauthClient, Session $session)
     {
-        dd('yes');
         $config = $this->getParameter('toolforge.oauth.logged_in_user');
 
         if (isset($config['oauth']['logged_in_user']) && $config['oauth']['logged_in_user']) {
