@@ -1,0 +1,24 @@
+{
+    "name": "wikimedia/toolforge-bundle",
+    "description": "Symfony 4 bundle providing useful Toolforge features.",
+    "type": "symfony-bundle",
+    "license": "GPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "Sam Wilson",
+            "email": "sam@samwilson.id.au"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Wikimedia\\ToolforgeBundle\\": "./"
+        }
+    },
+    "require": {
+        "symfony/http-kernel": "^4.0",
+        "symfony/config": "^4.0",
+        "krinkle/intuition": "^1.1",
+        "mediawiki/oauthclient": "^0.1",
+        "oojs/oojs-ui": "^0.28"
+    }
+}
