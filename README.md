@@ -34,6 +34,11 @@ Or `config/bundles.php`
 ### OAuth
 
 The bundle creates three new routes `/login`, `/oauth_callback`, and `/logout`.
+You need to register these with your application
+by adding the following to your `config/routes.yaml` file (or equivalent):
+
+    toolforge:
+      resource: '@ToolforgeBundle/Resources/config/routes.yaml'
 
 To configure OAuth, first
 [apply for an OAuth consumer](https://meta.wikimedia.org/wiki/Special:OAuthConsumerRegistration/propose)
