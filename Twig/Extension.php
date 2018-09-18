@@ -3,6 +3,7 @@
 namespace Wikimedia\ToolforgeBundle\Twig;
 
 use Krinkle\Intuition\Intuition;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Twig\Extension\AbstractExtension;
 use Twig_Function;
 
@@ -14,11 +15,19 @@ class Extension extends AbstractExtension {
     /** @var string Full filesystem path to the `i18n/` directory. */
     protected $i18nDir;
 
-    public function __construct(Intuition $intuition, $rootDir, $domain)
-    {
+    /** @var Session */
+    protected $session;
+
+    public function __construct(
+        Intuition $intuition,
+        Session $session,
+        $rootDir,
+        $domain
+    ) {
         $this->intuition = $intuition;
         $this->i18nDir = $rootDir.'/i18n/';
         $this->domain = $domain;
+        $this->session = $session;
     }
 
     /**
@@ -29,12 +38,23 @@ class Extension extends AbstractExtension {
     {
         $options = ['is_safe' => ['html']];
         return [
+            new Twig_Function('logged_in_user', [$this, 'getLoggedInUser'], $options),
             new Twig_Function('msg', [$this, 'msg'], $options),
             new Twig_Function('lang', [$this, 'getLang'], $options),
             new Twig_Function('lang_name', [$this, 'getLangName'], $options),
             new Twig_Function('all_langs', [$this, 'getAllLangs']),
             new Twig_Function('is_rtl', [$this, 'isRtl']),
         ];
+    }
+
+    /**
+     * Get the currently logged in user's details, as returned by \MediaWiki\OAuthClient\Client::identify() when the
+     * user logged in.
+     * @return string[]|bool
+     */
+    public function getLoggedInUser()
+    {
+        return $this->session->get('logged_in_user');
     }
 
     /**

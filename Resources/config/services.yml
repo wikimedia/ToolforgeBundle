@@ -14,11 +14,16 @@ services:
   # The service class is a subclass of Intuition.
   Krinkle\Intuition\Intuition:
     factory: ['Wikimedia\ToolforgeBundle\Service\Intuition', serviceFactory]
-    arguments: ["@request_stack", "@session", "%kernel.root_dir%", "%toolforge.intuition.domain%"]
+    arguments:
+      - "@request_stack"
+      - "@session"
+      - "%kernel.root_dir%"
+      - "%toolforge.intuition.domain%"
 
   Wikimedia\ToolforgeBundle\Twig\Extension:
     arguments:
       - '@Krinkle\Intuition\Intuition'
+      - "@session"
       - "%kernel.root_dir%"
       - "%toolforge.intuition.domain%"
     tags: [ "twig.extension" ]
