@@ -33,20 +33,11 @@ Or `config/bundles.php`
 
 ### OAuth
 
-Add the bundle's routing to your app's `config/routing.yml` file:
+The bundle creates three new routes `/login`, `/oauth_callback`, and `/logout`.
 
-    toolforge_bundle:
-      resource: "@ToolforgeBundle/Controller/"
-      type: annotation
-
-The bundle creates these new routes:
-
-    /login
-    /oauth_callback
-    /logout
-
-[Apply for an OAuth consumer](https://meta.wikimedia.org/wiki/Special:OAuthConsumerRegistration/propose)
-on Meta Wiki, and add the consumer key and secret to your `parameters.yml` file.
+To configure OAuth, first
+[apply for an OAuth consumer](https://meta.wikimedia.org/wiki/Special:OAuthConsumerRegistration/propose)
+on Meta Wiki, and add the consumer key and secret to your `parameters.yml` or `.env` file.
 Then connect these to your app's config with the following in `config.yml`:
 
     toolforge:

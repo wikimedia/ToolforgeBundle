@@ -22,5 +22,6 @@ class ToolforgeExtension extends Extension {
         $configDir = dirname(__DIR__).'/Resources/config';
         $loader = new YamlFileLoader($container, new FileLocator($configDir));
         $loader->load('services.yml');
+        $loader->load('routes.yml');
     }
 }

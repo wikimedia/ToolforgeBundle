@@ -1,0 +1,3 @@
+toolforge_bundle:
+  resource: "@ToolforgeBundle/Controller/"
+  type: annotation
