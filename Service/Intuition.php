@@ -12,11 +12,16 @@ class Intuition extends KrinkleIntuition
     /**
      * @param RequestStack $requestStack
      * @param SessionInterface $session
-     * @param string $rootDir
+     * @param string $rootDir Root filesystem directory of the application.
+     * @param string $domain The i18n domain.
      * @return Intuition
      */
-    public static function serviceFactory(RequestStack $requestStack, SessionInterface $session, string $rootDir)
-    {
+    public static function serviceFactory(
+        RequestStack $requestStack,
+        SessionInterface $session,
+        string $rootDir,
+        string $domain
+    ) {
         // Default language.
         $useLang = 'en';
 
@@ -38,8 +43,8 @@ class Intuition extends KrinkleIntuition
         }
 
         // Set up Intuition, using the selected language.
-        $intuition = new static('grantmetrics');
-        $intuition->registerDomain('grantmetrics', $rootDir.'/../i18n');
+        $intuition = new static(['domain' => $domain]);
+        $intuition->registerDomain($domain, $rootDir.'/../i18n');
         $intuition->setLang(strtolower($useLang));
 
         // Also add US English, so we can access the locale information (e.g. for date formatting).

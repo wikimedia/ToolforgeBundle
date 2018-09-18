@@ -14,7 +14,7 @@ Install the code (in an existing Symfony project):
 
     composer require wikimedia/toolforge-bundle
 
-Register the bundle in your AppKernel:
+Register the bundle in your `AppKernel`:
 
     class AppKernel extends Kernel {
         public function registerBundles() {
@@ -24,6 +24,10 @@ Register the bundle in your AppKernel:
             return $bundles;
         }
     }
+
+Or `config/bundles.php`
+
+    Wikimedia\ToolforgeBundle\ToolforgeBundle::class => ['dev' => true],
 
 ## Configuration
 

@@ -31,9 +31,9 @@ class Extension extends AbstractExtension {
         return [
             new Twig_Function('msg', [$this, 'msg'], $options),
             new Twig_Function('lang', [$this, 'getLang'], $options),
-            new Twig_Function('langName', [$this, 'getLangName'], $options),
-            new Twig_Function('allLangs', [$this, 'getAllLangs']),
-            new Twig_Function('isRTL', [$this, 'isRTL']),
+            new Twig_Function('lang_name', [$this, 'getLangName'], $options),
+            new Twig_Function('all_langs', [$this, 'getAllLangs']),
+            new Twig_Function('is_rtl', [$this, 'isRtl']),
         ];
     }
 
@@ -98,7 +98,7 @@ class Extension extends AbstractExtension {
      * @param string|bool $lang Language code (if false, will use current language).
      * @return bool
      */
-    public function isRTL($lang = false)
+    public function isRtl($lang = false)
     {
         if ($lang) {
             return $this->intuition->isRtl($lang);
