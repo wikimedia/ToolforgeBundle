@@ -40,6 +40,8 @@ class Extension extends AbstractExtension {
         return [
             new Twig_Function('logged_in_user', [$this, 'getLoggedInUser'], $options),
             new Twig_Function('msg', [$this, 'msg'], $options),
+            new Twig_Function('msg_exists', [$this, 'msgExists'], $options),
+            new Twig_Function('msg_if_exists', [$this, 'msgIfExists'], $options),
             new Twig_Function('lang', [$this, 'getLang'], $options),
             new Twig_Function('lang_name', [$this, 'getLangName'], $options),
             new Twig_Function('all_langs', [$this, 'getAllLangs']),
@@ -55,6 +57,38 @@ class Extension extends AbstractExtension {
     public function getLoggedInUser()
     {
         return $this->session->get('logged_in_user');
+    }
+
+    /**
+     * Get an i18n message if the key exists, otherwise treat as plain text.
+     * @param string $message
+     * @param array $vars
+     * @return mixed|null|string
+     */
+    public function msgIfExists($message = '', $vars = [])
+    {
+        $exists = $this->msgExists($message, $vars);
+        if ($exists) {
+            return $this->msg($message, $vars);
+        }
+        return $message;
+    }
+
+
+    /**
+     * See if a given i18n message exists.
+     * If this returns false it means msg() would return "[message-key]"
+     * Parameters the same as msg(), except $fail which is overwritten.
+     * @param string $message The message.
+     * @param array $vars
+     * @return bool
+     */
+    public function msgExists($message = '', $vars = [])
+    {
+        return $this->intuition->msgExists($message, [
+            'domain' => $this->domain,
+            'variables' => is_array($vars) ? $vars : []
+        ]);
     }
 
     /**

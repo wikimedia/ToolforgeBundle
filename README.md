@@ -47,14 +47,14 @@ Then connect these to your app's config with the following in `config.yml`:
 
     toolforge:
       oauth:
-        consumer_key: '%oauth.key%'
-        consumer_secret: '%oauth.secret%'
+        consumer_key: '%env(OAUTH_KEY)%'
+        consumer_secret: '%env(OAUTH_SECRET)%'
 
 While in development, it can be useful to not have to log your user in all the time.
 To force login of a particular user (but note that you still have to click the 'login' link),
 add a `toolforge.oauth.logged_in_user` key to your `config.yml` file, e.g.:
 
-    logged_in_user: '%app.logged_in_user%'
+    logged_in_user: '%env(LOGGED_IN_USER)%'
 
 Add a login link to the relevant Twig template (often `base.html.twig`), e.g.:
 
@@ -65,9 +65,9 @@ Add a login link to the relevant Twig template (often `base.html.twig`), e.g.:
       <a href="{{ path('login') }}">{{ msg('login') }}</a>
     {% endif %}
 
-The i18n parts of this are explained below.
-The OAuth-specific parts is the `logged_in_user`,
-which is a bungle-provided global Twig variable
+The internationalization parts of this are explained below.
+The OAuth-specific part is the `logged_in_user()`,
+which is a bungle-provided Twig function
 that gives you access to the currently logged-in user.
 
 ### Internationalization (Intuition and jQuery.i18n)
@@ -83,6 +83,16 @@ In PHP, set your application's i18n 'domain' with the following in `config/packa
 You can inject Intuition into your controllers via type hinting, e.g.:
 
     public function indexAction( Request $request, Intuition $intuition ) { /*...*/ }
+
+The following Twig functions are available:
+
+* `msg( msg, params )` *string* Get a single message.
+* `msg_exists( msg )` *bool* Check to see if a given message exists.
+* `msg_if_exists( msg, params )` *string* Get a message if it exists, or else return the provided string.
+* `lang( lang )` *string* The code of the current or given language.
+* `lang_name( lang )` *string* The name of the current or given language.
+* `all_langs()` *string[]* List of all languages defined in JSON files in the `i18n/` directory (code => name).
+* `is_rtl()` *bool* Whether the current language is right-to-left.
 
 #### 2. Javascript
 
