@@ -34,6 +34,7 @@ Or `config/bundles.php`
 ### OAuth
 
 The bundle creates three new routes `/login`, `/oauth_callback`, and `/logout`.
+Your application should have a route called `home`.
 You need to register these with your application
 by adding the following to your `config/routes.yaml` file (or equivalent):
 
