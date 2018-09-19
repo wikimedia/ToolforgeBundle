@@ -6,7 +6,7 @@ A Symfony 4 bundle that provides some common parts of web-based tools in Wikimed
 Features:
 
 * OAuth user authentication against Meta Wiki.
-* Internationalization with the Intuition library.
+* Internationalization with the Intuition and jQuery.i18n libraries.
 
 ## Installation
 
@@ -70,17 +70,32 @@ The OAuth-specific parts is the `logged_in_user`,
 which is a bungle-provided global Twig variable
 that gives you access to the currently logged-in user.
 
-### Intuition (i18n)
+### Internationalization (Intuition and jQuery.i18n)
 
-Docs @TODO.
+#### 1. PHP
+
+In PHP, set your application's i18n 'domain' with the following in `config/packages/toolforge.yaml`:
 
     toolforge:
         intuition:
             domain: 'app-name-here'
 
-### OOUI
+You can inject Intuition into your controllers via type hinting, e.g.:
 
-@TODO
+    public function indexAction( Request $request, Intuition $intuition ) { /*...*/ }
+
+#### 2. Javascript
+
+In Javascript, you need to add the following to your main JS file (e.g. `app.js`):
+
+    require('../vendor/wikimedia/toolforge-bundle/assets/toolforge.js');
+
+And this to your HTML template (before your `app.js`):
+
+    <script type="text/javascript" src="https://tools-static.wmflabs.org/cdnjs/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    {% include '@toolforge/i18n.html.twig' %}
+
+Then you can get i18n messages with `$.i18n( 'msg-name', paramOne, paramTwo )`
 
 ## License
 

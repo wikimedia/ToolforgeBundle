@@ -5,9 +5,10 @@ namespace Wikimedia\ToolforgeBundle\DependencyInjection;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
-class ToolforgeExtension extends Extension {
+class ToolforgeExtension extends Extension implements PrependExtensionInterface {
 
     public function load(array $configs, ContainerBuilder $container) {
         // Process config.
@@ -22,6 +23,17 @@ class ToolforgeExtension extends Extension {
         $configDir = dirname(__DIR__).'/Resources/config';
         $loader = new YamlFileLoader($container, new FileLocator($configDir));
         $loader->load('services.yaml');
-        //$loader->load('routing.yml');
+    }
+
+    /**
+     * Allow an extension to prepend the extension configurations.
+     */
+    public function prepend(ContainerBuilder $container) {
+        // Add the bundle's templates directory to Twig.
+        $container->prependExtensionConfig('twig', [
+            'paths' => [
+                dirname( __DIR__ ).'/templates' => 'toolforge'
+            ],
+        ]);
     }
 }
