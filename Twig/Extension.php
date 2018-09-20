@@ -12,22 +12,20 @@ class Extension extends AbstractExtension {
     /** @var Intuition */
     protected $intuition;
 
-    /** @var string Full filesystem path to the `i18n/` directory. */
-    protected $i18nDir;
-
     /** @var Session */
     protected $session;
+
+    /** @var string */
+    protected $domain;
 
     public function __construct(
         Intuition $intuition,
         Session $session,
-        $rootDir,
         $domain
     ) {
         $this->intuition = $intuition;
-        $this->i18nDir = $rootDir.'/i18n/';
-        $this->domain = $domain;
         $this->session = $session;
+        $this->domain = $domain;
     }
 
     /**
@@ -132,7 +130,8 @@ class Extension extends AbstractExtension {
      */
     public function getAllLangs()
     {
-        $messageFiles = glob($this->i18nDir.'/*.json');
+        $domainInfo = $this->intuition->getDomainInfo($this->domain);
+        $messageFiles = glob($domainInfo['dir'] . '/*.json');
         $languages = array_values(array_unique(array_map(
             function ($filename) {
                 return basename($filename, '.json');

@@ -24,6 +24,5 @@ services:
     arguments:
       - '@Krinkle\Intuition\Intuition'
       - "@session"
-      - "%kernel.root_dir%"
       - "%toolforge.intuition.domain%"
     tags: [ "twig.extension" ]

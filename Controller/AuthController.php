@@ -14,7 +14,7 @@ class AuthController extends Controller {
 
     /**
      * Redirect to Meta for Oauth authentication.
-     * @Route("/login", name="login")
+     * @Route({ "en": "/login", "fr": "loggy" }, name="login")
      * @return RedirectResponse
      * @throws Exception If initialization fails.
      * @codeCoverageIgnore

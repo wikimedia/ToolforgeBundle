@@ -45,6 +45,7 @@ class Intuition extends KrinkleIntuition
         // Set up Intuition, using the selected language.
         $intuition = new static(['domain' => $domain]);
         $intuition->registerDomain($domain, $rootDir.'/../i18n');
+        $intuition->registerDomain('toolforge', dirname(__DIR__).'/Resources/i18n');
         $intuition->setLang(strtolower($useLang));
 
         // Also add US English, so we can access the locale information (e.g. for date formatting).

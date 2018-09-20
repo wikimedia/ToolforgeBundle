@@ -32,7 +32,7 @@ class ToolforgeExtension extends Extension implements PrependExtensionInterface 
         // Add the bundle's templates directory to Twig.
         $container->prependExtensionConfig('twig', [
             'paths' => [
-                dirname( __DIR__ ).'/templates' => 'toolforge'
+                dirname( __DIR__ ).'/Resources/templates' => 'toolforge'
             ],
         ]);
     }

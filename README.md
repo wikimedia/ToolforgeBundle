@@ -5,8 +5,13 @@ A Symfony 4 bundle that provides some common parts of web-based tools in Wikimed
 
 Features:
 
-* OAuth user authentication against Meta Wiki.
+* OAuth user authentication against [Meta Wiki](https://meta.wikimedia.org/).
 * Internationalization with the Intuition and jQuery.i18n libraries.
+
+[![Packagist](https://img.shields.io/packagist/v/wikimedia/toolforge-bundle.svg)](https://packagist.org/packages/wikimedia/toolforge-bundle)
+[![License](https://img.shields.io/github/license/wikimedia/ToolforgeBundle.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![GitHub issues](https://img.shields.io/github/issues/wikimedia/ToolforgeBundle.svg)](https://github.com/wikimedia/ToolforgeBundle/issues)
+[![Build Status](https://travis-ci.org/wikimedia/ToolforgeBundle.svg)](https://travis-ci.org/wikimedia/toolforgebundle)
 
 ## Installation
 

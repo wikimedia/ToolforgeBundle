@@ -3,6 +3,12 @@
     "description": "Symfony 4 bundle providing useful Toolforge features.",
     "type": "symfony-bundle",
     "license": "GPL-3.0-or-later",
+    "homepage": "https://github.com/wikimedia/toolforgebundle",
+    "support": {
+        "issues": "https://github.com/wikimedia/toolforgebundle/issues",
+        "source": "https://github.com/wikimedia/toolforgebundle",
+        "forum": "https://discourse-mediawiki.wmflabs.org/"
+    },
     "authors": [
         {
             "name": "Sam Wilson",
@@ -15,10 +21,15 @@
         }
     },
     "require": {
-        "symfony/http-kernel": "^4.0",
-        "symfony/config": "^4.0",
+        "symfony/http-kernel": "^4.1",
+        "symfony/routing": "^4.1",
+        "symfony/config": "^4.1",
+        "symfony/twig-bridge": "^4.1",
         "krinkle/intuition": "^1.1",
-        "mediawiki/oauthclient": "^0.1",
-        "oojs/oojs-ui": "^0.28"
+        "mediawiki/oauthclient": "^0.1"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.3",
+        "symfony/phpunit-bridge": "^4.1"
     }
 }
