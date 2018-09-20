@@ -11,7 +11,7 @@ Features:
 [![Packagist](https://img.shields.io/packagist/v/wikimedia/toolforge-bundle.svg)](https://packagist.org/packages/wikimedia/toolforge-bundle)
 [![License](https://img.shields.io/github/license/wikimedia/ToolforgeBundle.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![GitHub issues](https://img.shields.io/github/issues/wikimedia/ToolforgeBundle.svg)](https://github.com/wikimedia/ToolforgeBundle/issues)
-[![Build Status](https://travis-ci.org/wikimedia/ToolforgeBundle.svg)](https://travis-ci.org/wikimedia/toolforgebundle)
+[![Build Status](https://travis-ci.org/wikimedia/ToolforgeBundle.svg)](https://travis-ci.org/wikimedia/ToolforgeBundle)
 
 ## Installation
 
@@ -104,7 +104,7 @@ The following Twig functions are available:
 
 In Javascript, you need to add the following to your main JS file (e.g. `app.js`):
 
-    require('../vendor/wikimedia/toolforge-bundle/assets/toolforge.js');
+    require('../vendor/wikimedia/toolforge-bundle/Resources/assets/toolforge.js');
 
 And this to your HTML template (before your `app.js`):
 
