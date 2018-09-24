@@ -8,6 +8,16 @@ Features:
 * OAuth user authentication against [Meta Wiki](https://meta.wikimedia.org/).
 * Internationalization with the Intuition and jQuery.i18n libraries.
 
+Still to come:
+
+* Universal Language Selector (ULS)
+* Localizable routes
+* OOUI
+* CSSJanus
+* Addwiki
+* Configuration for the replica DBs
+* Critical error reporting to tool maintainers' email
+
 [![Packagist](https://img.shields.io/packagist/v/wikimedia/toolforge-bundle.svg)](https://packagist.org/packages/wikimedia/toolforge-bundle)
 [![License](https://img.shields.io/github/license/wikimedia/ToolforgeBundle.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![GitHub issues](https://img.shields.io/github/issues/wikimedia/ToolforgeBundle.svg)](https://github.com/wikimedia/ToolforgeBundle/issues)
@@ -48,33 +58,36 @@ by adding the following to your `config/routes.yaml` file (or equivalent):
 
 To configure OAuth, first
 [apply for an OAuth consumer](https://meta.wikimedia.org/wiki/Special:OAuthConsumerRegistration/propose)
-on Meta Wiki, and add the consumer key and secret to your `parameters.yml` or `.env` file.
-Then connect these to your app's config with the following in `config.yml`:
+on Meta Wiki with a callback URL of `<your-base-url>/oauth_callback`
+and add the consumer key and secret to your `.env` file.
+Then connect these to your application's config with the following in `config/packages/toolforge.yaml`:
 
     toolforge:
       oauth:
         consumer_key: '%env(OAUTH_KEY)%'
         consumer_secret: '%env(OAUTH_SECRET)%'
 
-While in development, it can be useful to not have to log your user in all the time.
-To force login of a particular user (but note that you still have to click the 'login' link),
-add a `toolforge.oauth.logged_in_user` key to your `config.yml` file, e.g.:
-
-    logged_in_user: '%env(LOGGED_IN_USER)%'
-
 Add a login link to the relevant Twig template (often `base.html.twig`), e.g.:
 
     {% if logged_in_user() %}
       {{ msg( 'logged-in-as', [ logged_in_user().username ] ) }}
-      <a href="{{ path('logout') }}">{{ msg('logout') }}</a>
+      <a href="{{ path('toolforge_logout') }}">{{ msg('logout') }}</a>
     {% else %}
-      <a href="{{ path('login') }}">{{ msg('login') }}</a>
+      <a href="{{ path('toolforge_login') }}">{{ msg('login') }}</a>
     {% endif %}
 
 The internationalization parts of this are explained below.
 The OAuth-specific part is the `logged_in_user()`,
 which is a bungle-provided Twig function
 that gives you access to the currently logged-in user.
+
+While in development, it can be useful to not have to log your user in all the time.
+To force login of a particular user (but note that you still have to click the 'login' link),
+add a `logged_in_user` key to your `config/packages/toolforge.yml` file, e.g.:
+
+    toolforge:
+      oauth:
+        logged_in_user: '%env(LOGGED_IN_USER)%'
 
 ### Internationalization (Intuition and jQuery.i18n)
 

@@ -14,7 +14,7 @@ class AuthController extends Controller {
 
     /**
      * Redirect to Meta for Oauth authentication.
-     * @Route({ "en": "/login", "fr": "loggy" }, name="login")
+     * @Route("/login", name="toolforge_login")
      * @return RedirectResponse
      * @throws Exception If initialization fails.
      * @codeCoverageIgnore
@@ -40,7 +40,7 @@ class AuthController extends Controller {
 
     /**
      * Receive authentication credentials back from the OAuth wiki.
-     * @Route("/oauth_callback", name="OAuthCallback")
+     * @Route("/oauth_callback", name="toolforge_oauth_callback")
      * @param Request $request The HTTP request.
      * @return RedirectResponse
      */
@@ -70,7 +70,7 @@ class AuthController extends Controller {
 
     /**
      * Log out the user and return to the homepage.
-     * @Route("/logout", name="logout")
+     * @Route("/logout", name="toolforge_logout")
      * @return RedirectResponse
      */
     public function logoutAction(Session $session)
