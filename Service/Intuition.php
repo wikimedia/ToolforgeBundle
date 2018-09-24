@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Wikimedia\ToolforgeBundle\Service;
 
 use Krinkle\Intuition\Intuition as KrinkleIntuition;
