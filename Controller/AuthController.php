@@ -18,25 +18,25 @@ class AuthController extends Controller {
      * Redirect to Meta for Oauth authentication.
      * @Route("/login", name="toolforge_login")
      * @return RedirectResponse
-     * @throws Exception If initialization fails.
-     * @codeCoverageIgnore
      */
     public function loginAction(Client $oauthClient, Session $session)
     {
-        $config = $this->getParameter('toolforge.oauth.logged_in_user');
-
-        if (isset($config['oauth']['logged_in_user']) && $config['oauth']['logged_in_user']) {
-            $this->get('session')->set('logged_in_user', (object) [
-                'username' => $config['oauth']['logged_in_user'],
+        // Automatically log in a development user if defined.
+        $loggedInUser = $this->getParameter('toolforge.oauth.logged_in_user');
+        if ($loggedInUser) {
+            $this->get('session')->set('logged_in_user', (object)[
+                'username' => $loggedInUser,
             ]);
-            return new RedirectResponse($config['oauth']['redirect_to']);
+            return $this->redirectToRoute('home');
         }
 
+        // Otherwise, continue with OAuth authentication.
         list($next, $token) = $oauthClient->initiate();
 
         // Save the request token to the session.
         $session->set('oauth.request_token', $token);
 
+        // Send the user to Meta Wiki.
         return new RedirectResponse($next);
     }
 

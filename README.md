@@ -115,7 +115,7 @@ The following Twig functions are available:
 
 #### 2. Javascript
 
-In Javascript, you need to add the following to your main JS file (e.g. `app.js`):
+In Javascript, you need to add the following to your main JS file (e.g. `app.js`) or `webpack.config.js`:
 
     require('../vendor/wikimedia/toolforge-bundle/Resources/assets/toolforge.js');
 
