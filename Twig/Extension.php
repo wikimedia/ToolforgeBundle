@@ -9,7 +9,8 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Twig\Extension\AbstractExtension;
 use Twig_Function;
 
-class Extension extends AbstractExtension {
+class Extension extends AbstractExtension
+{
 
     /** @var Intuition */
     protected $intuition;
@@ -23,7 +24,7 @@ class Extension extends AbstractExtension {
     public function __construct(
         Intuition $intuition,
         Session $session,
-        $domain
+        string $domain
     ) {
         $this->intuition = $intuition;
         $this->session = $session;
@@ -32,9 +33,9 @@ class Extension extends AbstractExtension {
 
     /**
      * Get all functions that this class provides.
-     * @return array
+     * @return Twig_Function[]
      */
-    public function getFunctions()
+    public function getFunctions(): array
     {
         $options = ['is_safe' => ['html']];
         return [
@@ -62,10 +63,10 @@ class Extension extends AbstractExtension {
     /**
      * Get an i18n message if the key exists, otherwise treat as plain text.
      * @param string $message
-     * @param array $vars
+     * @param string[] $vars
      * @return mixed|null|string
      */
-    public function msgIfExists($message = '', $vars = [])
+    public function msgIfExists(string $message = '', array $vars = [])
     {
         $exists = $this->msgExists($message, $vars);
         if ($exists) {
@@ -80,28 +81,28 @@ class Extension extends AbstractExtension {
      * If this returns false it means msg() would return "[message-key]"
      * Parameters the same as msg(), except $fail which is overwritten.
      * @param string $message The message.
-     * @param array $vars
+     * @param string[] $vars
      * @return bool
      */
-    public function msgExists($message = '', $vars = [])
+    public function msgExists(string $message = '', array $vars = []): bool
     {
         return $this->intuition->msgExists($message, [
             'domain' => $this->domain,
-            'variables' => is_array($vars) ? $vars : []
+            'variables' => is_array($vars) ? $vars : [],
         ]);
     }
 
     /**
      * Get an i18n message.
      * @param string $message
-     * @param array $vars
+     * @param string[] $vars
      * @return mixed|null|string
      */
-    public function msg($message = '', $vars = [])
+    public function msg(string $message = '', array $vars = [])
     {
         return $this->intuition->msg($message, [
             'domain' => $this->domain,
-            'variables' => $vars
+            'variables' => $vars,
         ]);
     }
 
@@ -109,7 +110,7 @@ class Extension extends AbstractExtension {
      * Get the current language code.
      * @return string
      */
-    public function getLang()
+    public function getLang(): string
     {
         return $this->intuition->getLang();
     }
@@ -118,7 +119,7 @@ class Extension extends AbstractExtension {
      * Get the current language name (defaults to 'English').
      * @return string
      */
-    public function getLangName($lang = false)
+    public function getLangName(?string $lang = null): string
     {
         if ($lang) {
             return $this->intuition->getLangName($lang);
@@ -130,10 +131,10 @@ class Extension extends AbstractExtension {
      * Get all available languages in the i18n directory.
      * @return string[] Associative array of langKey => langName
      */
-    public function getAllLangs()
+    public function getAllLangs(): array
     {
         $domainInfo = $this->intuition->getDomainInfo($this->domain);
-        $messageFiles = glob($domainInfo['dir'] . '/*.json');
+        $messageFiles = glob($domainInfo['dir'].'/*.json');
         $languages = array_values(array_unique(array_map(
             function ($filename) {
                 return basename($filename, '.json');
@@ -153,7 +154,7 @@ class Extension extends AbstractExtension {
      * @param string|bool $lang Language code (if false, will use current language).
      * @return bool
      */
-    public function isRtl($lang = false)
+    public function isRtl($lang = false): bool
     {
         if ($lang) {
             return $this->intuition->isRtl($lang);

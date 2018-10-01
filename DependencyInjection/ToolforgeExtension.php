@@ -10,9 +10,15 @@ use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
-class ToolforgeExtension extends Extension implements PrependExtensionInterface {
+class ToolforgeExtension extends Extension implements PrependExtensionInterface
+{
 
-    public function load(array $configs, ContainerBuilder $container) {
+    /**
+     * @param mixed[] $configs
+     * @param ContainerBuilder $container
+     */
+    public function load(array $configs, ContainerBuilder $container): void
+    {
         // Process config.
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
@@ -30,11 +36,12 @@ class ToolforgeExtension extends Extension implements PrependExtensionInterface 
     /**
      * Allow an extension to prepend the extension configurations.
      */
-    public function prepend(ContainerBuilder $container) {
+    public function prepend(ContainerBuilder $container): void
+    {
         // Add the bundle's templates directory to Twig.
         $container->prependExtensionConfig('twig', [
             'paths' => [
-                dirname( __DIR__ ).'/Resources/templates' => 'toolforge'
+                dirname(__DIR__).'/Resources/templates' => 'toolforge',
             ],
         ]);
     }

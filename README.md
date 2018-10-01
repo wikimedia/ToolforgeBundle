@@ -23,6 +23,15 @@ Still to come:
 [![GitHub issues](https://img.shields.io/github/issues/wikimedia/ToolforgeBundle.svg)](https://github.com/wikimedia/ToolforgeBundle/issues)
 [![Build Status](https://travis-ci.org/wikimedia/ToolforgeBundle.svg)](https://travis-ci.org/wikimedia/ToolforgeBundle)
 
+## Table of Contents
+
+* [Installation](#installation)
+* [Configuration](#configuration)
+  * [OAuth](#oauth)
+  * [Internationalization (Intuition and jQuery.i18n)](#internationalization-intuition-and-jqueryi18n)
+* [Examples](#examples)
+* [License](#license)
+
 ## Installation
 
 Install the code (in an existing Symfony project):
@@ -125,6 +134,12 @@ And this to your HTML template (before your `app.js`):
     {% include '@toolforge/i18n.html.twig' %}
 
 Then you can get i18n messages with `$.i18n( 'msg-name', paramOne, paramTwo )`
+
+## Examples
+
+This bundle is currently in use on the following projects:
+
+1. [Grant Metrics](https://meta.wikimedia.org/wiki/Grant_Metrics_tool)
 
 ## License
 

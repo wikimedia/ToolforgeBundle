@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Wikimedia\ToolforgeBundle\Test;
+namespace Wikimedia\ToolforgeBundle\Tests\Twig;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -10,22 +10,23 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Wikimedia\ToolforgeBundle\Service\Intuition;
 use Wikimedia\ToolforgeBundle\Twig\Extension;
 
-class ExtensionTest extends TestCase {
+class ExtensionTest extends TestCase
+{
 
     /** @var Extension */
     protected $extension;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $session = new Session();
         $domain = 'toolforge';
-        $rootDir = dirname(__DIR__, 2 );
+        $rootDir = dirname(__DIR__, 2);
         $intuition = Intuition::serviceFactory(new RequestStack(), $session, $rootDir, $domain);
-        $this->extension = new Extension($intuition, new Session(), $domain );
+        $this->extension = new Extension($intuition, new Session(), $domain);
     }
 
-    public function testBasics()
+    public function testBasics(): void
     {
         static::assertEquals('en', $this->extension->getLang());
         static::assertEquals('English', $this->extension->getLangName());

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Wikimedia\ToolforgeBundle\Controller;
 
-use Exception;
 use MediaWiki\OAuthClient\Client;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -12,14 +11,15 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 
-class AuthController extends Controller {
+class AuthController extends Controller
+{
 
     /**
      * Redirect to Meta for Oauth authentication.
      * @Route("/login", name="toolforge_login")
      * @return RedirectResponse
      */
-    public function loginAction(Client $oauthClient, Session $session)
+    public function loginAction(Client $oauthClient, Session $session): RedirectResponse
     {
         // Automatically log in a development user if defined.
         $loggedInUser = $this->getParameter('toolforge.oauth.logged_in_user');
@@ -31,7 +31,7 @@ class AuthController extends Controller {
         }
 
         // Otherwise, continue with OAuth authentication.
-        list($next, $token) = $oauthClient->initiate();
+        [$next, $token] = $oauthClient->initiate();
 
         // Save the request token to the session.
         $session->set('oauth.request_token', $token);
@@ -46,7 +46,7 @@ class AuthController extends Controller {
      * @param Request $request The HTTP request.
      * @return RedirectResponse
      */
-    public function oauthCallbackAction(Request $request, Session $session, Client $client)
+    public function oauthCallbackAction(Request $request, Session $session, Client $client): RedirectResponse
     {
         // Give up if the required GET params don't exist.
         if (!$request->get('oauth_verifier')) {
@@ -75,10 +75,9 @@ class AuthController extends Controller {
      * @Route("/logout", name="toolforge_logout")
      * @return RedirectResponse
      */
-    public function logoutAction(Session $session)
+    public function logoutAction(Session $session): RedirectResponse
     {
         $session->invalidate();
         return $this->redirectToRoute('home');
     }
-
 }
