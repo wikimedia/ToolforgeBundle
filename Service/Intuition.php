@@ -23,12 +23,12 @@ class Intuition extends KrinkleIntuition
         SessionInterface $session,
         string $rootDir,
         string $domain
-    ) {
+    ): Intuition {
         // Default language.
         $useLang = 'en';
 
         // Current request doesn't exist in unit tests, in which case we'll fall back to English.
-        if ($requestStack->getCurrentRequest() !== null) {
+        if (null !== $requestStack->getCurrentRequest()) {
             // Use lang from the request or the session.
             $queryLang = $requestStack->getCurrentRequest()->query->get('uselang');
             $sessionLang = $session->get('lang');

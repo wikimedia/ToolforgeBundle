@@ -7,5 +7,5 @@ install:
   - composer install
 
 script:
+  - ./vendor/bin/phpcs
   - ./vendor/bin/simple-phpunit
-
