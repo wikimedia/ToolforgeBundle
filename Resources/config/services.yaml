@@ -26,3 +26,11 @@ services:
       - "@session"
       - "%toolforge.intuition.domain%"
     tags: [ "twig.extension" ]
+
+  assets.toolforge_package:
+    class: Wikimedia\ToolforgeBundle\Asset\CssJanusPackage
+    arguments:
+      - "@assets._version__default"
+      - '@Krinkle\Intuition\Intuition'
+      - "%kernel.project_dir%"
+      - "@assets.context"

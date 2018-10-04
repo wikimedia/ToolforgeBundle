@@ -54,6 +54,7 @@
         <exclude-pattern>ToolforgeBundle.php</exclude-pattern>
         <properties>
             <property name="rootNamespaces" type="array">
+                <element key="Asset" value="Wikimedia\ToolforgeBundle\Asset"/>
                 <element key="Controller" value="Wikimedia\ToolforgeBundle\Controller"/>
                 <element key="DependencyInjection" value="Wikimedia\ToolforgeBundle\DependencyInjection"/>
                 <element key="Resources" value="Wikimedia\ToolforgeBundle\Resources"/>

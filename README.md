@@ -28,7 +28,7 @@ Still to come:
 * [Installation](#installation)
 * [Configuration](#configuration)
   * [OAuth](#oauth)
-  * [Internationalization (Intuition and jQuery.i18n)](#internationalization-intuition-and-jqueryi18n)
+  * [Internationalization](#internationalization) (in PHP, Javascript, and CSS)
 * [Examples](#examples)
 * [License](#license)
 
@@ -98,7 +98,10 @@ add a `logged_in_user` key to your `config/packages/toolforge.yml` file, e.g.:
       oauth:
         logged_in_user: '%env(LOGGED_IN_USER)%'
 
-### Internationalization (Intuition and jQuery.i18n)
+### Internationalization
+
+This section explains how to incorporate the bundle's usage of
+the Intuition, jQuery.i18n, & CSSJanus libraries.
 
 #### 1. PHP
 
@@ -134,6 +137,30 @@ And this to your HTML template (before your `app.js`):
     {% include '@toolforge/i18n.html.twig' %}
 
 Then you can get i18n messages with `$.i18n( 'msg-name', paramOne, paramTwo )`
+
+#### 3. CSS
+
+The [CSSJanus library](https://github.com/cssjanus/php-cssjanus)
+is used to flip CSS from the default left-to-right writing direction
+to right-to-left when a request is made in a relevant language
+(based on Intuition's idea of that; see above).
+
+This is done via an Asset 'Package' which is registered as the `assets.toolforge_package` service.
+
+To use it, add the following to your `services.yaml` file:
+
+    assets._default_package: '@assets.toolforge_package'
+
+Then, when you use something like this in your Twig template:
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/app.css') }}" /> 
+
+the bundle will automatically change the output URL
+based on the current language's direction.
+It will also look for an `_rtl.css` stylesheet and generate one if required
+(this requires the web server user to have write access to the `public/assets/` directory).
+
+@TODO Add a Encore plugin that will generate the equivalent file.
 
 ## Examples
 

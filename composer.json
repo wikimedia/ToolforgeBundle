@@ -21,11 +21,13 @@
         }
     },
     "require": {
-        "symfony/http-kernel": "^4.1",
-        "symfony/routing": "^4.1",
-        "symfony/config": "^4.1",
-        "symfony/twig-bridge": "^4.1",
+        "cssjanus/cssjanus": "^1.2",
         "krinkle/intuition": "^1.1",
+        "symfony/config": "^4.1",
+        "symfony/http-kernel": "^4.1",
+        "symfony/filesystem": "^4.1",
+        "symfony/routing": "^4.1",
+        "symfony/twig-bridge": "^4.1",
         "mediawiki/oauthclient": "^0.1"
     },
     "require-dev": {
