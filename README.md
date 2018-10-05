@@ -29,6 +29,7 @@ Still to come:
 * [Configuration](#configuration)
   * [OAuth](#oauth)
   * [Internationalization (Intuition and jQuery.i18n)](#internationalization-intuition-and-jqueryi18n)
+  * [PHP Code Sniffer](#php-code-sniffer)
 * [Examples](#examples)
 * [License](#license)
 
@@ -134,6 +135,17 @@ And this to your HTML template (before your `app.js`):
     {% include '@toolforge/i18n.html.twig' %}
 
 Then you can get i18n messages with `$.i18n( 'msg-name', paramOne, paramTwo )`
+
+### PHP Code Sniffer
+
+You can use the bundle's phpcs rules by adding the following
+to the `require-dev` section of your project's `composer.json`:
+
+    "slevomat/coding-standard": "^4.8"
+
+And then referencing the bundle's ruleset with the following in your project's `.phpcs.xml`:
+
+    <rule ref="./vendor/wikimedia/toolforge-bundle/Resources/phpcs/ruleset.xml" />
 
 ## Examples
 
