@@ -107,6 +107,20 @@ class Extension extends AbstractExtension
     }
 
     /**
+     * Wrap text with bdi tags for bidirectional isolation
+     * @param string $text Text to be wrapped
+     * @return string Text wrapped with bdi tags, or empty string
+     *  if an empty string was originally given
+     */
+    public function bdi(string $text = '')
+    {
+        if (!empty($text)) {
+            return '<bdi>'.$text.'</bdi>';
+        }
+        return '';
+    }
+
+    /**
      * Get the current language code.
      * @return string
      */
