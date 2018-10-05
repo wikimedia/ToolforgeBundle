@@ -152,6 +152,7 @@ And then referencing the bundle's ruleset with the following in your project's `
 This bundle is currently in use on the following projects:
 
 1. [Grant Metrics](https://meta.wikimedia.org/wiki/Grant_Metrics_tool)
+2. [SVG Translate](https://meta.wikimedia.org/wiki/Community_Tech/SVG_translation)
 
 ## License
 
