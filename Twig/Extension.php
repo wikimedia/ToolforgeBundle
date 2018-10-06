@@ -41,6 +41,7 @@ class Extension extends AbstractExtension
         return [
             new Twig_Function('logged_in_user', [$this, 'getLoggedInUser'], $options),
             new Twig_Function('msg', [$this, 'msg'], $options),
+            new Twig_Function('bdi', [$this, 'bdi'], $options),
             new Twig_Function('msg_exists', [$this, 'msgExists'], $options),
             new Twig_Function('msg_if_exists', [$this, 'msgIfExists'], $options),
             new Twig_Function('lang', [$this, 'getLang'], $options),
@@ -112,7 +113,7 @@ class Extension extends AbstractExtension
      * @return string Text wrapped with bdi tags, or empty string
      *  if an empty string was originally given
      */
-    public function bdi(string $text = '')
+    public function bdi(string $text = ''): string
     {
         if (!empty($text)) {
             return '<bdi>'.$text.'</bdi>';

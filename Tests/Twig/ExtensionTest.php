@@ -47,7 +47,7 @@ class ExtensionTest extends TestCase
 
     public function testBdi(): void
     {
-        static::assertEquals('<bdi>Foo</bdi>',$this->extension->bdi('Foo'));
-        static::assertEquals('',$this->extension->bdi(''));
+        static::assertEquals('<bdi>Foo</bdi>', $this->extension->bdi('Foo'));
+        static::assertEquals('', $this->extension->bdi(''));
     }
 }

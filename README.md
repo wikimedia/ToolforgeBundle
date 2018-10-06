@@ -116,6 +116,7 @@ You can inject Intuition into your controllers via type hinting, e.g.:
 The following Twig functions are available:
 
 * `msg( msg, params )` *string* Get a single message.
+* `bdi( text )` *string* Wrap a string with <bdi> tags for bidirectional isolation
 * `msg_exists( msg )` *bool* Check to see if a given message exists.
 * `msg_if_exists( msg, params )` *string* Get a message if it exists, or else return the provided string.
 * `lang( lang )` *string* The code of the current or given language.
