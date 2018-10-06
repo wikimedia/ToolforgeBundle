@@ -44,4 +44,10 @@ class ExtensionTest extends TestCase
         static::assertFalse($this->extension->isRtl('en'));
         static::assertTrue($this->extension->isRtl('ar'));
     }
+
+    public function testBdi(): void
+    {
+        static::assertEquals('<bdi>Foo</bdi>', $this->extension->bdi('Foo'));
+        static::assertEquals('', $this->extension->bdi(''));
+    }
 }
