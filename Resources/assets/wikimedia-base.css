@@ -1,0 +1,26 @@
+body {
+    font-family: var( --font-family-base );
+    line-height: var( --line-height-base );
+}
+h1, h2, h3, h4, h5, h6 {
+    font-family: var( --font-family-heading-main );
+    line-height: var( --line-height-heading );
+}
+code,
+pre {
+    font-family: var( --font-family-monospace );
+}
+a {
+    color: var( --color-primary );
+    text-decoration: none;
+}
+a:hover {
+    color: var( --color-primary--hover );
+    text-decoration: underline;
+}
+a:active {
+    color: var( --color-primary--active );
+}
+a:focus {
+    color: var( --color-primary--focus );
+}

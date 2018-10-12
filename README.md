@@ -30,6 +30,7 @@ Still to come:
   * [OAuth](#oauth)
   * [Internationalization (Intuition and jQuery.i18n)](#internationalization-intuition-and-jqueryi18n)
   * [PHP Code Sniffer](#php-code-sniffer)
+  * [Wikimedia UI styles](#wikimedia-ui-styles)
 * [Examples](#examples)
 * [License](#license)
 
@@ -147,6 +148,21 @@ to the `require-dev` section of your project's `composer.json`:
 And then referencing the bundle's ruleset with the following in your project's `.phpcs.xml`:
 
     <rule ref="./vendor/wikimedia/toolforge-bundle/Resources/phpcs/ruleset.xml" />
+
+### Wikimedia UI styles
+
+You may want your tool to conform to the
+[Wikimedia Design Style Guide](https://design.wikimedia.org/style-guide/).
+A basic stylesheet that applies some of these design elements is available in the bundle.
+To use it, first install the wikimedia-ui-base package:
+
+    npm install wikimedia-ui-base
+
+And then import both it and the bundle's CSS file for it
+(e.g. at the top of your `assets/app.css` file):
+
+    @import '../node_modules/wikimedia-ui-base/wikimedia-ui-base.css';
+    @import '../vendor/wikimedia/toolforge-bundle/Resources/assets/wikimedia-base.css';
 
 ## Examples
 
