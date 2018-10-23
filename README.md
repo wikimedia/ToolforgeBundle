@@ -153,16 +153,16 @@ And then referencing the bundle's ruleset with the following in your project's `
 
 You may want your tool to conform to the
 [Wikimedia Design Style Guide](https://design.wikimedia.org/style-guide/).
-A basic stylesheet that applies some of these design elements is available in the bundle.
-To use it, first install the wikimedia-ui-base package:
+A basic [LESS](http://lesscss.org/) stylesheet that applies some of these design elements
+is available in the bundle. To use it, first install the required packages:
 
-    npm install wikimedia-ui-base
+    npm install wikimedia-ui-base less less-loader
 
 And then import both it and the bundle's CSS file for it
-(e.g. at the top of your `assets/app.css` file):
+(e.g. at the top of your `assets/app.less` file):
 
-    @import '../node_modules/wikimedia-ui-base/wikimedia-ui-base.css';
-    @import '../vendor/wikimedia/toolforge-bundle/Resources/assets/wikimedia-base.css';
+    @import '../node_modules/wikimedia-ui-base/wikimedia-ui-base.less';
+    @import '../vendor/wikimedia/toolforge-bundle/Resources/assets/wikimedia-base.less';
 
 ## Examples
 
