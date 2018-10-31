@@ -7,6 +7,8 @@ Features:
 
 * OAuth user authentication against [Meta Wiki](https://meta.wikimedia.org/).
 * Internationalization with the Intuition and jQuery.i18n libraries.
+* PHP Code Sniffer ruleset
+* Base Wikimedia UI stylesheet (LESS)
 
 Still to come:
 
@@ -22,6 +24,9 @@ Still to come:
 [![License](https://img.shields.io/github/license/wikimedia/ToolforgeBundle.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![GitHub issues](https://img.shields.io/github/issues/wikimedia/ToolforgeBundle.svg)](https://github.com/wikimedia/ToolforgeBundle/issues)
 [![Build Status](https://travis-ci.org/wikimedia/ToolforgeBundle.svg)](https://travis-ci.org/wikimedia/ToolforgeBundle)
+
+Please report all issues either on [Github](https://github.com/wikimedia/ToolforgeBundle/issues)
+or on [Phabricator](https://phabricator.wikimedia.org/tag/community-tech) (tagged with `community-tech`).
 
 ## Table of Contents
 
@@ -127,16 +132,23 @@ The following Twig functions are available:
 
 #### 2. Javascript
 
-In Javascript, you need to add the following to your main JS file (e.g. `app.js`) or `webpack.config.js`:
+In Javascript, you need to do three things to enable internationalisation:
+ 
+1. Add the following to your main JS file (e.g. `app.js`) or `webpack.config.js`:
 
-    require('../vendor/wikimedia/toolforge-bundle/Resources/assets/toolforge.js');
+       require('../vendor/wikimedia/toolforge-bundle/Resources/assets/toolforge.js');
 
-And this to your HTML template (before your `app.js`):
+2. This to your HTML template (before your `app.js`):
 
-    <script type="text/javascript" src="https://tools-static.wmflabs.org/cdnjs/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    {% include '@toolforge/i18n.html.twig' %}
+       <script type="text/javascript" src="https://tools-static.wmflabs.org/cdnjs/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+       {% include '@toolforge/i18n.html.twig' %}
 
-Then you can get i18n messages with `$.i18n( 'msg-name', paramOne, paramTwo )`
+   (The jQuery can of course be left out if you're already loading that through other means.)
+
+3. And symlink your `i18n/` directory from `public/i18n/`,
+   so that the language files can be loaded by from Javascript.
+
+Then you can get i18n messages anywhere with: `$.i18n( 'msg-name', paramOne, paramTwo )`
 
 ### PHP Code Sniffer
 
