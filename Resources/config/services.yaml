@@ -9,6 +9,8 @@ services:
 
   Wikimedia\ToolforgeBundle\Controller\AuthController:
     tags: [ 'controller.service_arguments' ]
+    autoconfigure: true
+    autowire: true
 
   # Intuition i18n library.
   # The service class is a subclass of Intuition.
