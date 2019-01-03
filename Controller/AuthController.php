@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Wikimedia\ToolforgeBundle\Controller;
 
 use MediaWiki\OAuthClient\Client;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 
-class AuthController extends Controller
+class AuthController extends AbstractController
 {
 
     /**
