@@ -15,9 +15,8 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $builder = new TreeBuilder();
-        $root = $builder->root('toolforge');
-        $root
+        $builder = new TreeBuilder('toolforge');
+        $builder->getRootNode()
             ->children()
                 ->arrayNode('oauth')
                     ->addDefaultsIfNotSet()
