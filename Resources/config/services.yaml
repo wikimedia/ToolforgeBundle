@@ -3,7 +3,7 @@ services:
   MediaWiki\OAuthClient\Client:
     factory: [ 'MediaWiki\OAuthClient\Client', newFromKeyAndSecret ]
     arguments:
-      - 'https://meta.wikimedia.org/w/index.php?title=Special:OAuth'
+      - '%toolforge.oauth.url%'
       - '%toolforge.oauth.consumer_key%'
       - '%toolforge.oauth.consumer_secret%'
 
