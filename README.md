@@ -83,6 +83,10 @@ Then connect these to your application's config with the following in `config/pa
         consumer_key: '%env(OAUTH_KEY)%'
         consumer_secret: '%env(OAUTH_SECRET)%'
 
+If you need to authenticate to a different wiki,
+you can also set the `toolforge.oauth.url` parameter
+to the full URL to `Special:OAuth`.
+
 Add a login link to the relevant Twig template (often `base.html.twig`), e.g.:
 
     {% if logged_in_user() %}

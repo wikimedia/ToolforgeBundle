@@ -22,6 +22,7 @@ class ToolforgeExtension extends Extension implements PrependExtensionInterface
         // Process config.
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
+        $container->setParameter('toolforge.oauth.url', $config['oauth']['url']);
         $container->setParameter('toolforge.oauth.consumer_key', $config['oauth']['consumer_key']);
         $container->setParameter('toolforge.oauth.consumer_secret', $config['oauth']['consumer_secret']);
         $container->setParameter('toolforge.oauth.logged_in_user', $config['oauth']['logged_in_user']);
