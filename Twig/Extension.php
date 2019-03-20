@@ -5,9 +5,13 @@ declare(strict_types=1);
 namespace Wikimedia\ToolforgeBundle\Twig;
 
 use Krinkle\Intuition\Intuition;
+use NumberFormatter;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Process\Process;
 use Twig\Extension\AbstractExtension;
+use Twig_Filter;
 use Twig_Function;
+use Twig_SimpleFilter;
 
 class Extension extends AbstractExtension
 {
@@ -21,6 +25,9 @@ class Extension extends AbstractExtension
     /** @var string */
     protected $domain;
 
+    /** @var NumberFormatter Used in localizing numbers in the `num_format` filter. */
+    protected $numberFormatter;
+
     public function __construct(
         Intuition $intuition,
         Session $session,
@@ -32,7 +39,7 @@ class Extension extends AbstractExtension
     }
 
     /**
-     * Get all functions that this class provides.
+     * Get all functions that this extension provides.
      * @return Twig_Function[]
      */
     public function getFunctions(): array
@@ -48,6 +55,9 @@ class Extension extends AbstractExtension
             new Twig_Function('lang_name', [$this, 'getLangName'], $options),
             new Twig_Function('all_langs', [$this, 'getAllLangs']),
             new Twig_Function('is_rtl', [$this, 'isRtl']),
+            new Twig_Function('git_branch', [$this, 'gitBranch']),
+            new Twig_Function('git_hash', [$this, 'gitHash']),
+            new Twig_Function('git_hash_short', [$this, 'gitHashShort']),
         ];
     }
 
@@ -175,5 +185,75 @@ class Extension extends AbstractExtension
             return $this->intuition->isRtl($lang);
         }
         return $this->intuition->isRtl($this->intuition->getLang());
+    }
+
+    /**
+     * Get the currently checked-out Git branch.
+     * @return string
+     */
+    public function gitBranch(): string
+    {
+        $process = new Process(['git', 'rev-parse', '--symbolic-full-name', '--abbrev-ref', 'HEAD']);
+        $process->run();
+        return trim($process->getOutput());
+    }
+
+    /**
+     * Get the full hash of the currently checked-out Git commit.
+     * @return string
+     */
+    public function gitHash(): string
+    {
+        $process = new Process(['git', 'rev-parse', 'HEAD']);
+        $process->run();
+        return trim($process->getOutput());
+    }
+
+    /**
+     * Get the short hash of the currently checked-out Git commit.
+     * @return string
+     */
+    public function gitHashShort(): string
+    {
+        $process = new Process(['git', 'rev-parse', '--short', 'HEAD']);
+        $process->run();
+        return trim($process->getOutput());
+    }
+
+    /**
+     * Get all filters that this extension provides.
+     * @return Twig_Filter[]
+     */
+    public function getFilters(): array
+    {
+        return [
+            new Twig_SimpleFilter('num_format', [$this, 'numberFormat']),
+            new Twig_SimpleFilter('list_format', [$this, 'listFormat']),
+        ];
+    }
+
+    /**
+     * Format a number based on language settings.
+     * @param int|float $number
+     * @param int $decimals Number of decimals to format to.
+     * @return string
+     */
+    public function numberFormat($number, int $decimals = 0): string
+    {
+        if (!isset($this->numberFormatter)) {
+            $this->numberFormatter = new NumberFormatter($this->intuition->getLang(), NumberFormatter::DECIMAL);
+        }
+        $this->numberFormatter->setAttribute(NumberFormatter::MAX_FRACTION_DIGITS, $decimals);
+        return $this->numberFormatter->format($number);
+    }
+
+    /**
+     * Format a list of values. In English this is a comma-separated list with the last item separated with 'and'.
+     * @param string[] $list The list items.
+     * @return string
+     */
+    public function listFormat(array $list): string
+    {
+        return $this->intuition->listToText($list);
     }
 }

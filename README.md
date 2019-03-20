@@ -124,7 +124,7 @@ You can inject Intuition into your controllers via type hinting, e.g.:
 
     public function indexAction( Request $request, Intuition $intuition ) { /*...*/ }
 
-The following Twig functions are available:
+The following Twig functions and filters are available:
 
 * `msg( msg, params )` *string* Get a single message.
 * `bdi( text )` *string* Wrap a string with <bdi> tags for bidirectional isolation
@@ -134,6 +134,11 @@ The following Twig functions are available:
 * `lang_name( lang )` *string* The name of the current or given language.
 * `all_langs()` *string[]* List of all languages defined in JSON files in the `i18n/` directory (code => name).
 * `is_rtl()` *bool* Whether the current language is right-to-left.
+* `git_branch()` *string* The current Git branch.
+* `git_hash()` *string* The current Git hash.
+* `git_hash_short()` *string* The short version of the current Git hash.
+* `<number>|num_format` *int|float* Format a number according to the current Locale.
+* `<strings>|list_format` *string[]* Format an array of strings as a separated inline-list. In English this is comma-separate with 'and' before the last item.
 
 #### 2. Javascript
 
