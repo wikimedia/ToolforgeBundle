@@ -50,4 +50,23 @@ class ExtensionTest extends TestCase
         static::assertEquals('<bdi>Foo</bdi>', $this->extension->bdi('Foo'));
         static::assertEquals('', $this->extension->bdi(''));
     }
+
+    /**
+     * Format a number.
+     */
+    public function testNumberFormat(): void
+    {
+        static::assertEquals('1,234', $this->extension->numberFormat(1234));
+        static::assertEquals('1,234.32', $this->extension->numberFormat(1234.316, 2));
+        static::assertEquals('50', $this->extension->numberFormat(50.0000, 4));
+    }
+
+    /**
+     * Methods that fetch data about the git repository.
+     */
+    public function testGitMethods(): void
+    {
+        static::assertEquals(7, strlen($this->extension->gitHashShort()));
+        static::assertEquals(40, strlen($this->extension->gitHash()));
+    }
 }
