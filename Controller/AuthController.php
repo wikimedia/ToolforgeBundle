@@ -48,9 +48,12 @@ class AuthController extends AbstractController
      */
     public function oauthCallbackAction(Request $request, Session $session, Client $client): RedirectResponse
     {
-        // Give up if the required GET params don't exist.
+        // Give up if the required GET params or stored request token don't exist.
         if (!$request->get('oauth_verifier')) {
             throw $this->createNotFoundException('No OAuth verifier given.');
+        }
+        if (!$session->has('oauth.request_token')) {
+            throw $this->createNotFoundException('No request token found. Please try logging in again.');
         }
 
         // Complete authentication.
@@ -61,6 +64,9 @@ class AuthController extends AbstractController
         // Store access token, and remove request token.
         $session->set('oauth.access_token', $accessToken);
         $session->remove('oauth.request_token');
+
+        // Regenerate session ID.
+        $session->migrate();
 
         // Store user identity.
         $ident = $client->identify($accessToken);
