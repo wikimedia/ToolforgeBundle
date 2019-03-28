@@ -22,6 +22,10 @@ services:
       - "%kernel.root_dir%"
       - "%toolforge.intuition.domain%"
 
+  Wikimedia\ToolforgeBundle\Logger\WebRequestProcessor:
+    tags: { name: monolog.processor }
+    autowire: true
+
   Wikimedia\ToolforgeBundle\Twig\Extension:
     arguments:
       - '@Krinkle\Intuition\Intuition'
