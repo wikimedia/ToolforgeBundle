@@ -197,7 +197,7 @@ It should be added to your tool's crontab to run e.g. every ten minutes:
 
 * The first argument is either `prod` or `dev`,
   depending on whether you want to run the highest tagged version,
-  or the lastest master branch.
+  or the latest master branch.
 * The second is the path to the tool's top-level directory,
   which is usually either the tool's home directory or a directory within it
   (e.g. `/data/project/<toolname>/app`).
