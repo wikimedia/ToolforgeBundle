@@ -37,6 +37,7 @@ or on [Phabricator](https://phabricator.wikimedia.org/tag/community-tech) (tagge
   * [PHP Code Sniffer](#php-code-sniffer)
   * [Wikimedia UI styles](#wikimedia-ui-styles)
   * [Deployment script](#deployment-script)
+  * [Sessions]{#sessions}
 * [Examples](#examples)
 * [License](#license)
 
@@ -201,6 +202,18 @@ It should be added to your tool's crontab to run e.g. every ten minutes:
 * The second is the path to the tool's top-level directory,
   which is usually either the tool's home directory or a directory within it
   (e.g. `/data/project/<toolname>/app`).
+
+### Sessions
+
+By default Symfony uses `/` for sessions' cookie path,
+but this isn't secure on Toolforge
+because it means that different tools can access each other's cookies.
+To fix this, set the following in your `framework.yaml`:
+
+    framework:
+      session:
+        storage_id: Wikimedia\ToolforgeBundle\Service\NativeSessionStorage
+        save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
 
 ## Examples
 
