@@ -26,6 +26,13 @@ services:
     tags: { name: monolog.processor }
     autowire: true
 
+  Wikimedia\ToolforgeBundle\Service\NativeSessionStorage:
+    arguments:
+      $options: '%session.storage.options%'
+      $handler: '@session.handler'
+      $metaBag: '@session.storage.metadata_bag'
+      $requestStack: '@request_stack'
+
   Wikimedia\ToolforgeBundle\Twig\Extension:
     arguments:
       - '@Krinkle\Intuition\Intuition'
