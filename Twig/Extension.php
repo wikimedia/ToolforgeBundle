@@ -170,7 +170,7 @@ class Extension extends AbstractExtension
         foreach ($languages as $lang) {
             $availableLanguages[$lang] = $this->intuition->getLangName($lang);
         }
-        asort($availableLanguages);
+        ksort($availableLanguages);
         return $availableLanguages;
     }
 
