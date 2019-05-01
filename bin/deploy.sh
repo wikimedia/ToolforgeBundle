@@ -15,7 +15,7 @@ git fetch --quiet origin 2>&1
 
 ## Get some information about git.
 HIGHEST_TAG=$(git tag --list "*.*.*" | sort --version-sort | tail --lines 1)
-CURRENT_TAG=$(git describe --tags)
+CURRENT_TAG=$(git describe --tags --always)
 CURRENT_BRANCH=$(git symbolic-ref --short -q HEAD)
 DIFF_TO_MASTER=$(git diff origin/master)
 
