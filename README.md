@@ -219,8 +219,10 @@ To fix this, set the following in your `framework.yaml`:
 
 This bundle is currently in use on the following projects:
 
-1. [Grant Metrics](https://meta.wikimedia.org/wiki/Grant_Metrics_tool)
-2. [SVG Translate](https://meta.wikimedia.org/wiki/Community_Tech/SVG_translation)
+1. [Event Metrics](https://meta.wikimedia.org/wiki/Special:MyLanguage/Event_Metrics)
+2. [SVG Translate](https://commons.wikimedia.org/wiki/Special:MyLanguage/Commons:SVG_Translate_tool)
+3. [Global Search](https://tools.wmflabs.org/global-search)
+4. [Flickr Dashboard](https://commons.wikimedia.org/wiki/Special:MyLanguage/Commons:Flickr_Dashboard)
 
 ## License
 
