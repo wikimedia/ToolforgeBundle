@@ -37,7 +37,7 @@ or on [Phabricator](https://phabricator.wikimedia.org/tag/community-tech) (tagge
   * [PHP Code Sniffer](#php-code-sniffer)
   * [Wikimedia UI styles](#wikimedia-ui-styles)
   * [Deployment script](#deployment-script)
-  * [Sessions]{#sessions}
+  * [Sessions](#sessions)
 * [Examples](#examples)
 * [License](#license)
 
@@ -194,7 +194,7 @@ where an application is run on the Kubernetes cluster.
 
 It should be added to your tool's crontab to run e.g. every ten minutes:
 
-    */10 * * * * /usr/bin/jsub -once -quiet /data/project/<toolname>/vendor/wikimedia/toolforge-bundle/bin/deploy.sh prod /data/project/<toolname>/<app-dir>/
+    */10 * * * * /usr/bin/jsub -once -quiet /data/project/<toolname>/<app-dir>/vendor/wikimedia/toolforge-bundle/bin/deploy.sh prod /data/project/<toolname>/<app-dir>/
 
 * The first argument is either `prod` or `dev`,
   depending on whether you want to run the highest tagged version,
