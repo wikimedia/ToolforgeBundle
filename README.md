@@ -111,6 +111,32 @@ add a `logged_in_user` key to your `config/packages/toolforge.yml` file, e.g.:
       oauth:
         logged_in_user: '%env(LOGGED_IN_USER)%'
 
+In controllers, you can test whether the user is logged in by checking:
+
+    $this->get('session')->get('logged_in_user')
+
+#### Redirecting after login
+
+After the user logs in, you may want to redirect them back to the page they originally tried to
+view, instead of the `home` route. To do this, first make sure you registered your OAuth consumer
+to accept a callback URL using the "Allow consumer to specify a callback..." option. The value for
+the callback would for example be `https://tools.wmflabs.org/my-tool/oauth_callback`.
+
+The implementation in your views is best explained by example. Let's assume the current page
+the user sees shows a login link, and you want to redirect them back to the same page after
+they authenticate. The code in your Twig template should look something like:
+
+    <a href="{{ path('toolforge_login', {'callback': url('toolforge_oauth_callback', {'redirect': app.request.uri})}) }}">Login</a>
+
+Here `app.request.uri` evaluates to the current URL the user is viewing. It is provided as the
+`redirect` for the `oauth_callback` route, which is provided as the `callback` for the `login` route.
+The URL for the login link ends up being something like:
+
+    https://tools.wmflabs.org/my-tool/login?callback=https%3A//tools.wmflabs.org/my-tool/oauth_callback%3Fredirect%3Dhttps%253A//tools.wmflabs.org/my-tool/my-page%253Ffoo%253Dbar
+
+Note the double-encoding of the URL used for the value of `redirect`. In this example the user will
+ultimately be redirected back to `https://tools.wmflabs.org/my-tool/my-page?foo=bar`. 
+
 ### Internationalization (Intuition and jQuery.i18n)
 
 #### 1. PHP
