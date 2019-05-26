@@ -19,7 +19,7 @@ class AuthController extends AbstractController
      * @Route("/login", name="toolforge_login")
      * @return RedirectResponse
      */
-    public function loginAction(Client $oauthClient, Session $session): RedirectResponse
+    public function loginAction(Request $request, Client $oauthClient, Session $session): RedirectResponse
     {
         // Automatically log in a development user if defined.
         $loggedInUser = $this->getParameter('toolforge.oauth.logged_in_user');
@@ -30,7 +30,12 @@ class AuthController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
-        // Otherwise, continue with OAuth authentication.
+        // Set the callback URL if given. Used to redirect back to target page after logging in.
+        if ($request->query->get('callback')) {
+            $oauthClient->setCallback($request->query->get('callback'));
+        }
+
+        // Continue with OAuth authentication.
         [$next, $token] = $oauthClient->initiate();
 
         // Save the request token to the session.
@@ -72,7 +77,12 @@ class AuthController extends AbstractController
         $ident = $client->identify($accessToken);
         $session->set('logged_in_user', $ident);
 
-        // Send to homepage.
+        // Redirect to callback, if given.
+        if ($request->query->get('redirect')) {
+            return $this->redirect($request->query->get('redirect'));
+        }
+
+        // Otherwise send to homepage.
         return $this->redirectToRoute('home');
     }
 
