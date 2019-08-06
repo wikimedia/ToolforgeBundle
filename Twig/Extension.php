@@ -55,6 +55,7 @@ class Extension extends AbstractExtension
             new Twig_Function('lang_name', [$this, 'getLangName'], $options),
             new Twig_Function('all_langs', [$this, 'getAllLangs']),
             new Twig_Function('is_rtl', [$this, 'isRtl']),
+            new Twig_Function('git_tag', [$this, 'gitTag']),
             new Twig_Function('git_branch', [$this, 'gitBranch']),
             new Twig_Function('git_hash', [$this, 'gitHash']),
             new Twig_Function('git_hash_short', [$this, 'gitHashShort']),
@@ -185,6 +186,20 @@ class Extension extends AbstractExtension
             return $this->intuition->isRtl($lang);
         }
         return $this->intuition->isRtl($this->intuition->getLang());
+    }
+
+    /**
+     * Get the current Git tag, or the short hash if there's no tags.
+     * @return string
+     */
+    public function gitTag(): string
+    {
+        $process = new Process(['git', 'describe', '--tags', '--always']);
+        $process->run();
+        if (!$process->isSuccessful()) {
+            return $this->gitHashShort();
+        }
+        return trim($process->getOutput());
     }
 
     /**

@@ -161,6 +161,7 @@ The following Twig functions and filters are available:
 * `lang_name( lang )` *string* The name of the current or given language.
 * `all_langs()` *string[]* List of all languages defined in JSON files in the `i18n/` directory (code => name).
 * `is_rtl()` *bool* Whether the current language is right-to-left.
+* `git_tag()` *string* The current Git tag, or the short hash if there are no tags.
 * `git_branch()` *string* The current Git branch.
 * `git_hash()` *string* The current Git hash.
 * `git_hash_short()` *string* The short version of the current Git hash.
