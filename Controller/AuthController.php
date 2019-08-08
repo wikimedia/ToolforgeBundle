@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class AuthController extends AbstractController
 {
@@ -30,8 +31,13 @@ class AuthController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
-        // Set the callback URL if given. Used to redirect back to target page after logging in.
-        if ($request->query->get('callback')) {
+        // Set the callback URL if given and if it matches the required prefix. If there's no
+        // prefix registered with the consumer then we can't supply our own callback.
+        // The prefixed callback is used to redirect back to target page after logging in.
+        $callback = $request->query->get('callback', '');
+        $callbackPrefix = $this->generateUrl('toolforge_oauth_callback', [], UrlGeneratorInterface::ABSOLUTE_URL);
+        $isPrefix = substr($callback, 0, strlen($callbackPrefix)) === $callbackPrefix;
+        if ($callback && $isPrefix) {
             $oauthClient->setCallback($request->query->get('callback'));
         }
 
