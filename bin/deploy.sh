@@ -40,6 +40,10 @@ fi
 ## Update the code.
 if [[ $MODE == "prod" ]]; then
     git checkout $HIGHEST_TAG
+    ## Write to to the Server Admin Log on Wikitech if dologmsg is available.
+    if [[ $(command -v dologmsg) ]]; then
+        dologmsg "Updating to version $HIGHEST_TAG"
+    fi
 fi
 if [[ $MODE == "dev" ]]; then
     git pull origin master
