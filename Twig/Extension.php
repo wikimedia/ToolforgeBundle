@@ -44,15 +44,15 @@ class Extension extends AbstractExtension
      */
     public function getFunctions(): array
     {
-        $options = ['is_safe' => ['html']];
+        $rawHtml = ['is_safe' => ['html']];
         return [
-            new Twig_Function('logged_in_user', [$this, 'getLoggedInUser'], $options),
-            new Twig_Function('msg', [$this, 'msg'], $options),
-            new Twig_Function('bdi', [$this, 'bdi'], $options),
-            new Twig_Function('msg_exists', [$this, 'msgExists'], $options),
-            new Twig_Function('msg_if_exists', [$this, 'msgIfExists'], $options),
-            new Twig_Function('lang', [$this, 'getLang'], $options),
-            new Twig_Function('lang_name', [$this, 'getLangName'], $options),
+            new Twig_Function('logged_in_user', [$this, 'getLoggedInUser']),
+            new Twig_Function('msg', [$this, 'msg'], $rawHtml),
+            new Twig_Function('bdi', [$this, 'bdi'], $rawHtml),
+            new Twig_Function('msg_exists', [$this, 'msgExists'], $rawHtml),
+            new Twig_Function('msg_if_exists', [$this, 'msgIfExists'], $rawHtml),
+            new Twig_Function('lang', [$this, 'getLang']),
+            new Twig_Function('lang_name', [$this, 'getLangName']),
             new Twig_Function('all_langs', [$this, 'getAllLangs']),
             new Twig_Function('is_rtl', [$this, 'isRtl']),
             new Twig_Function('git_tag', [$this, 'gitTag']),
