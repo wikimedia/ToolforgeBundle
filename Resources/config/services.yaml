@@ -19,7 +19,7 @@ services:
     arguments:
       - "@request_stack"
       - "@session"
-      - "%kernel.root_dir%"
+      - "%kernel.project_dir%"
       - "%toolforge.intuition.domain%"
 
   Wikimedia\ToolforgeBundle\Logger\WebRequestProcessor:
