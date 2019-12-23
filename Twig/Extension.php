@@ -9,9 +9,8 @@ use NumberFormatter;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Process\Process;
 use Twig\Extension\AbstractExtension;
-use Twig_Filter;
-use Twig_Function;
-use Twig_SimpleFilter;
+use Twig\TwigFilter;
+use Twig\TwigFunction;
 
 class Extension extends AbstractExtension
 {
@@ -40,25 +39,25 @@ class Extension extends AbstractExtension
 
     /**
      * Get all functions that this extension provides.
-     * @return Twig_Function[]
+     * @return TwigFunction[]
      */
     public function getFunctions(): array
     {
         $rawHtml = ['is_safe' => ['html']];
         return [
-            new Twig_Function('logged_in_user', [$this, 'getLoggedInUser']),
-            new Twig_Function('msg', [$this, 'msg'], $rawHtml),
-            new Twig_Function('bdi', [$this, 'bdi'], $rawHtml),
-            new Twig_Function('msg_exists', [$this, 'msgExists'], $rawHtml),
-            new Twig_Function('msg_if_exists', [$this, 'msgIfExists'], $rawHtml),
-            new Twig_Function('lang', [$this, 'getLang']),
-            new Twig_Function('lang_name', [$this, 'getLangName']),
-            new Twig_Function('all_langs', [$this, 'getAllLangs']),
-            new Twig_Function('is_rtl', [$this, 'isRtl']),
-            new Twig_Function('git_tag', [$this, 'gitTag']),
-            new Twig_Function('git_branch', [$this, 'gitBranch']),
-            new Twig_Function('git_hash', [$this, 'gitHash']),
-            new Twig_Function('git_hash_short', [$this, 'gitHashShort']),
+            new TwigFunction('logged_in_user', [$this, 'getLoggedInUser']),
+            new TwigFunction('msg', [$this, 'msg'], $rawHtml),
+            new TwigFunction('bdi', [$this, 'bdi'], $rawHtml),
+            new TwigFunction('msg_exists', [$this, 'msgExists'], $rawHtml),
+            new TwigFunction('msg_if_exists', [$this, 'msgIfExists'], $rawHtml),
+            new TwigFunction('lang', [$this, 'getLang']),
+            new TwigFunction('lang_name', [$this, 'getLangName']),
+            new TwigFunction('all_langs', [$this, 'getAllLangs']),
+            new TwigFunction('is_rtl', [$this, 'isRtl']),
+            new TwigFunction('git_tag', [$this, 'gitTag']),
+            new TwigFunction('git_branch', [$this, 'gitBranch']),
+            new TwigFunction('git_hash', [$this, 'gitHash']),
+            new TwigFunction('git_hash_short', [$this, 'gitHashShort']),
         ];
     }
 
@@ -237,13 +236,13 @@ class Extension extends AbstractExtension
 
     /**
      * Get all filters that this extension provides.
-     * @return Twig_Filter[]
+     * @return TwigFilter[]
      */
     public function getFilters(): array
     {
         return [
-            new Twig_SimpleFilter('num_format', [$this, 'numberFormat']),
-            new Twig_SimpleFilter('list_format', [$this, 'listFormat']),
+            new TwigFilter('num_format', [$this, 'numberFormat']),
+            new TwigFilter('list_format', [$this, 'listFormat']),
         ];
     }
 
