@@ -14,14 +14,14 @@ class Intuition extends KrinkleIntuition
     /**
      * @param RequestStack $requestStack
      * @param SessionInterface $session
-     * @param string $rootDir Root filesystem directory of the application.
+     * @param string $projectDir Root filesystem directory of the application.
      * @param string $domain The i18n domain.
      * @return Intuition
      */
     public static function serviceFactory(
         RequestStack $requestStack,
         SessionInterface $session,
-        string $rootDir,
+        string $projectDir,
         string $domain
     ): Intuition {
         // Default language.
@@ -46,7 +46,7 @@ class Intuition extends KrinkleIntuition
 
         // Set up Intuition, using the selected language.
         $intuition = new static(['domain' => $domain]);
-        $intuition->registerDomain($domain, $rootDir.'/../i18n');
+        $intuition->registerDomain($domain, $projectDir.'/i18n');
         $intuition->registerDomain('toolforge', dirname(__DIR__).'/Resources/i18n');
         $intuition->setLang(strtolower($useLang));
 
