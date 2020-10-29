@@ -12,7 +12,12 @@ shift 2
 
 BRANCH="master"
 if [[ "$1" == "--branch" && ! -z "$2" ]]; then
-    BRANCH="$2"
+    if [[ -z $(git ls-remote origin $2) ]]; then
+        echo "$2 branch does not exist. Not deploying."
+        exit 0
+    else
+        BRANCH="$2"
+    fi
 fi
 
 ## Update the repo.
