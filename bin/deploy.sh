@@ -1,13 +1,24 @@
 #!/bin/bash
 
-if [[ -z $1 || -z $2 ]]; then
-    echo "USAGE: $0 [prod|dev] <app-dir>"
+if [[ "$#" -gt 4 || "$#" -lt 2  ]]; then
+    echo "USAGE: $0 <prod|dev> <app-dir> [--branch git-branch]"
     exit 1
 fi
 
 ## Get CLI parameters.
 MODE=$1
 APP_DIR=$(cd $2; pwd)
+shift 2
+
+BRANCH="master"
+if [[ "$1" == "--branch" && ! -z "$2" ]]; then
+    if [[ -z $(git ls-remote origin $2) ]]; then
+        echo "$2 branch does not exist. Not deploying."
+        exit 0
+    else
+        BRANCH="$2"
+    fi
+fi
 
 ## Update the repo.
 cd $APP_DIR
@@ -17,23 +28,23 @@ git fetch --quiet origin 2>&1
 HIGHEST_TAG=$(git tag --list "*.*.*" | sort --version-sort | tail --lines 1)
 CURRENT_TAG=$(git describe --tags --always)
 CURRENT_BRANCH=$(git symbolic-ref --short -q HEAD)
-DIFF_TO_MASTER=$(git diff origin/master)
+DIFF_TO_BRANCH=$(git diff origin/$BRANCH)
 
 ## Prod site: do nothing if we're already at the highest tag.
-if [[ $MODE == 'prod' && $CURRENT_TAG == $HIGHEST_TAG ]]; then
+if [[ $MODE == "prod" && $CURRENT_TAG == $HIGHEST_TAG ]]; then
     exit 0
 fi
 
-## Dev site: do nothing if not on master.
-if [[ $MODE == "dev" && $CURRENT_BRANCH != "master" ]]; then
+## Dev site: do nothing if not on specified branch.
+if [[ $MODE == "dev" && $CURRENT_BRANCH != $BRANCH ]]; then
     ## Tell the maintainers, so they don't forget they're in
     ## the middle of testing something.
-    echo "Dev site not on master branch. Not deploying."
+    echo "Dev site not on specified branch. Not deploying."
     exit 0
 fi
 
-## Dev site: do nothing if there's no difference to master.
-if [[ $MODE == "dev" && -z "$DIFF_TO_MASTER" ]]; then
+## Dev site: do nothing if there's no difference to the specified branch.
+if [[ $MODE == "dev" && -z "$DIFF_TO_BRANCH" ]]; then
     exit 0
 fi
 
@@ -46,7 +57,7 @@ if [[ $MODE == "prod" ]]; then
     fi
 fi
 if [[ $MODE == "dev" ]]; then
-    git pull origin master
+    git pull origin $BRANCH
 fi
 
 ## Prod and dev sites: install the application.
