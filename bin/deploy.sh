@@ -10,6 +10,8 @@ MODE=$1
 APP_DIR=$(cd $2; pwd)
 shift 2
 
+cd $APP_DIR
+
 BRANCH="master"
 if [[ "$1" == "--branch" && ! -z "$2" ]]; then
     if [[ -z $(git ls-remote origin $2) ]]; then
@@ -21,7 +23,6 @@ if [[ "$1" == "--branch" && ! -z "$2" ]]; then
 fi
 
 ## Update the repo.
-cd $APP_DIR
 git fetch --quiet origin 2>&1
 
 ## Get some information about git.
