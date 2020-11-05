@@ -250,6 +250,7 @@ This bundle is currently in use on the following projects:
 2. [SVG Translate](https://commons.wikimedia.org/wiki/Special:MyLanguage/Commons:SVG_Translate_tool)
 3. [Global Search](https://tools.wmflabs.org/global-search)
 4. [Flickr Dashboard](https://commons.wikimedia.org/wiki/Special:MyLanguage/Commons:Flickr_Dashboard)
+5. [Wikisource Export](https://wsexport.wmflabs.org)
 
 ## License
 
