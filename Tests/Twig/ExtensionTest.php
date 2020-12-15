@@ -37,8 +37,10 @@ class ExtensionTest extends TestCase
         static::assertGreaterThan(0, count($allLangs));
 
         // Keys should be the language codes, with name as the values.
-        static::assertArraySubset(['en' => 'English'], $allLangs);
-        static::assertArraySubset(['de' => 'Deutsch'], $allLangs);
+        static::assertArrayHasKey('en', $allLangs);
+        static::assertSame('English', $allLangs['en']);
+        static::assertArrayHasKey('de', $allLangs);
+        static::assertSame('Deutsch', $allLangs['de']);
 
         // Testing if the language is RTL.
         static::assertFalse($this->extension->isRtl('en'));
