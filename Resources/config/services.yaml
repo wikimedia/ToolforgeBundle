@@ -33,6 +33,16 @@ services:
       $metaBag: '@session.storage.metadata_bag'
       $requestStack: '@request_stack'
 
+  Wikimedia\ToolforgeBundle\Service\ReplicasClient:
+    arguments:
+      - "@http_client"
+      - "@cache.replicas"
+      - "@doctrine"
+
+  Wikimedia\ToolforgeBundle\Command\SshCommand:
+    tags: { name: console.command }
+    autowire: true
+
   Wikimedia\ToolforgeBundle\Twig\Extension:
     arguments:
       - '@Krinkle\Intuition\Intuition'

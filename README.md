@@ -188,6 +188,97 @@ In Javascript, you need to do three things to enable internationalisation:
 
 Then you can get i18n messages anywhere with: `$.i18n( 'msg-name', paramOne, paramTwo )`
 
+### Replicas connection manager
+
+If your tool connects to multiple databases on the
+[Toolforge replicas](https://wikitech.wikimedia.org/wiki/Help:Toolforge/Database),
+you can take advantage of ToolforgeBundle's `ReplicasClient` service to ensure your application
+opens no more connections than it needs to.
+
+For this to work, you first need to add the following to your `config/packages/doctrine.yaml`:
+
+<details>
+<summary>doctrine.yaml</summary>
+
+```
+doctrine:
+  dbal:
+    connections:
+      toolforge_s1:
+        host: '%env(REPLICAS_HOST)%'
+        port: '%env(REPLICAS_PORT_S1)%'
+        user: '%env(REPLICAS_USERNAME)%'
+        password: '%env(REPLICAS_PASSWORD)%'
+      toolforge_s2:
+        host: '%env(REPLICAS_HOST)%'
+        port: '%env(REPLICAS_PORT_S2)%'
+        user: '%env(REPLICAS_USERNAME)%'
+        password: '%env(REPLICAS_PASSWORD)%'
+      toolforge_s3:
+        host: '%env(REPLICAS_HOST)%'
+        port: '%env(REPLICAS_PORT_S3)%'
+        user: '%env(REPLICAS_USERNAME)%'
+        password: '%env(REPLICAS_PASSWORD)%'
+      toolforge_s4:
+        host: '%env(REPLICAS_HOST)%'
+        port: '%env(REPLICAS_PORT_S4)%'
+        user: '%env(REPLICAS_USERNAME)%'
+        password: '%env(REPLICAS_PASSWORD)%'
+      toolforge_s5:
+        host: '%env(REPLICAS_HOST)%'
+        port: '%env(REPLICAS_PORT_S5)%'
+        user: '%env(REPLICAS_USERNAME)%'
+        password: '%env(REPLICAS_PASSWORD)%'
+      toolforge_s6:
+        host: '%env(REPLICAS_HOST)%'
+        port: '%env(REPLICAS_PORT_S6)%'
+        user: '%env(REPLICAS_USERNAME)%'
+        password: '%env(REPLICAS_PASSWORD)%'
+      toolforge_s7:
+        host: '%env(REPLICAS_HOST)%'
+        port: '%env(REPLICAS_PORT_S7)%'
+        user: '%env(REPLICAS_USERNAME)%'
+        password: '%env(REPLICAS_PASSWORD)%'
+      toolforge_s8:
+        host: '%env(REPLICAS_HOST)%'
+        port: '%env(REPLICAS_PORT_S8)%'
+        user: '%env(REPLICAS_USERNAME)%'
+        password: '%env(REPLICAS_PASSWORD)%'
+```
+
+</details>
+
+Also adding the `REPLICAS_HOST`, `REPLICAS_USERNAME`, `REPLICAS_PASSWORD` and each
+`REPLICAS_PORT_` to .env as necessary. If new shards are added (which is rare), you will
+need to update these accordingly.
+
+In **production**, `REPLICAS_HOST` should be `*.web.db.svc.eqiad.wmflabs` (or `analytics`
+instead of `web`). Internally the asterisk simply gets replaced with the shard number.
+The `REPLICAS_PORT_` vars should be `3306` in production. For local environments, use any safe
+range of ports (such as 4711 for `s1`, 4712 for `s2`, and so on).
+
+Next, establish an SSH tunnel to the replicas (only necessary on local environments):
+
+    php bin/console toolforge:ssh
+
+To query the replicas, inject the `ReplicasClient` service then call the `getConnection()`
+method, passing in a valid database, and you should get a `Doctrine\DBAL\Connection` object.
+For example:
+
+    # src/Controller/MyController.php
+    public function myMethod(ReplicasClient $client) {
+        $frConnection = $client->getConnection('frwiki');
+        $frUserId = $connection->executeQuery("SELECT user_id FROM user LIMIT 1")->fetch();
+        $ruConnection = $client->getConnection('ruwiki');
+        $ruUserId = $connection->executeQuery("SELECT user_id FROM user LIMIT 1")->fetch();
+        # ...
+    }
+
+In this example, behind the scenes `ReplicasClient` uses the same connection to talk
+to both `frwiki` and `ruwiki` since they (at the time of writing) live on the
+[same slice](https://noc.wikimedia.org/conf/highlight.php?file=dblists/s6.dblist). It works
+by querying (and caching) the dblists at https://noc.wikimedia.org.
+
 ### PHP Code Sniffer
 
 You can use the bundle's phpcs rules by adding the following
