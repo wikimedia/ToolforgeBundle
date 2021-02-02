@@ -29,7 +29,12 @@
         "symfony/process": "^4.4|^5.0",
         "symfony/routing": "^4.4|^5.0",
         "symfony/twig-bridge": "^4.4|^5.0",
-        "twig/twig": "^2.4||^3.0"
+        "twig/twig": "^2.4||^3.0",
+        "symfony/http-client": "^4.4|^5.0",
+        "symfony/cache": "^4.4|^5.0",
+        "doctrine/doctrine-bundle": "^2.2",
+        "symfony/dependency-injection": "^4.4|^5.1",
+        "symfony/console": "^4.4|^5.2"
     },
     "require-dev": {
         "slevomat/coding-standard": "^4.8",

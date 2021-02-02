@@ -36,6 +36,7 @@ class ToolforgeExtension extends Extension implements PrependExtensionInterface
 
     /**
      * Allow an extension to prepend the extension configurations.
+     * @param ContainerBuilder $container
      */
     public function prepend(ContainerBuilder $container): void
     {
