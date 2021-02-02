@@ -64,6 +64,12 @@ class SshCommand extends Command
             "Service to use. Either 'web' (default) or 'analytics'",
             'web'
         );
+        $this->addOption(
+            'bind-address',
+            'b',
+            InputOption::VALUE_OPTIONAL,
+            "Sets the binding address of the SSH tunnel. For Docker installations you may need to set this to 0.0.0.0"
+        );
     }
 
     /**
@@ -76,6 +82,7 @@ class SshCommand extends Command
     {
         $username = $input->getArgument('username');
         $service = $input->getOption('service');
+        $bindAddress = $input->getOption('bind-address');
         $host = "$service".self::HOST_SUFFIX;
         $login = $username.'@'.self::LOGIN_URL;
 
@@ -85,7 +92,11 @@ class SshCommand extends Command
         $processArgs = ['ssh', '-N'];
         foreach ($slices as $slice) {
             $processArgs[] = '-L';
-            $processArgs[] = $this->client->getPortForSlice($slice).":$slice.$host:3306";
+            $arg = $this->client->getPortForSlice($slice).":$slice.$host:3306";
+            if ($bindAddress) {
+                $arg = $bindAddress.':'.$arg;
+            }
+            $processArgs[] = $arg;
         }
         $processArgs[] = $login;
 
