@@ -7,6 +7,7 @@ Features:
 
 * OAuth user authentication against [Meta Wiki](https://meta.wikimedia.org/).
 * Internationalization with the Intuition and jQuery.i18n libraries.
+* Interface to connect and query the [replica databases](https://wikitech.wikimedia.org/wiki/Wiki_replicas)
 * PHP Code Sniffer ruleset
 * Base Wikimedia UI stylesheet (LESS)
 
@@ -17,7 +18,6 @@ Still to come:
 * OOUI
 * CSSJanus
 * Addwiki
-* Configuration for the replica DBs
 * Critical error reporting to tool maintainers' email
 
 [![Packagist](https://img.shields.io/packagist/v/wikimedia/toolforge-bundle.svg)](https://packagist.org/packages/wikimedia/toolforge-bundle)
@@ -32,12 +32,13 @@ or on [Phabricator](https://phabricator.wikimedia.org/tag/community-tech) (tagge
 
 * [Installation](#installation)
 * [Configuration](#configuration)
-  * [OAuth](#oauth)
-  * [Internationalization (Intuition and jQuery.i18n)](#internationalization-intuition-and-jqueryi18n)
-  * [PHP Code Sniffer](#php-code-sniffer)
-  * [Wikimedia UI styles](#wikimedia-ui-styles)
-  * [Deployment script](#deployment-script)
-  * [Sessions](#sessions)
+    * [OAuth](#oauth)
+    * [Internationalization (Intuition and jQuery.i18n)](#internationalization-intuition-and-jqueryi18n)
+    * [Replicas connection manager](#replicas-connection-manager)
+    * [PHP Code Sniffer](#php-code-sniffer)
+    * [Wikimedia UI styles](#wikimedia-ui-styles)
+    * [Deployment script](#deployment-script)
+    * [Sessions](#sessions)
 * [Examples](#examples)
 * [License](#license)
 
@@ -135,7 +136,7 @@ The URL for the login link ends up being something like:
     https://tools.wmflabs.org/my-tool/login?callback=https%3A//tools.wmflabs.org/my-tool/oauth_callback%3Fredirect%3Dhttps%253A//tools.wmflabs.org/my-tool/my-page%253Ffoo%253Dbar
 
 Note the double-encoding of the URL used for the value of `redirect`. In this example the user will
-ultimately be redirected back to `https://tools.wmflabs.org/my-tool/my-page?foo=bar`. 
+ultimately be redirected back to `https://tools.wmflabs.org/my-tool/my-page?foo=bar`.
 
 ### Internationalization (Intuition and jQuery.i18n)
 
@@ -171,7 +172,7 @@ The following Twig functions and filters are available:
 #### 2. Javascript
 
 In Javascript, you need to do three things to enable internationalisation:
- 
+
 1. Add the following to your main JS file (e.g. `app.js`) or `webpack.config.js`:
 
        require('../vendor/wikimedia/toolforge-bundle/Resources/assets/toolforge.js');
@@ -268,16 +269,17 @@ For example:
     # src/Controller/MyController.php
     public function myMethod(ReplicasClient $client) {
         $frConnection = $client->getConnection('frwiki');
-        $frUserId = $connection->executeQuery("SELECT user_id FROM user LIMIT 1")->fetch();
+        $frUserId = $frConnection->executeQuery("SELECT user_id FROM user LIMIT 1")->fetch();
         $ruConnection = $client->getConnection('ruwiki');
-        $ruUserId = $connection->executeQuery("SELECT user_id FROM user LIMIT 1")->fetch();
+        $ruUserId = $ruConnection->executeQuery("SELECT user_id FROM user LIMIT 1")->fetch();
         # ...
     }
 
-In this example, behind the scenes `ReplicasClient` uses the same connection to talk
-to both `frwiki` and `ruwiki` since they (at the time of writing) live on the
-[same slice](https://noc.wikimedia.org/conf/highlight.php?file=dblists/s6.dblist). It works
-by querying (and caching) the dblists at https://noc.wikimedia.org.
+In this example, `$frConnection` and `$ruConnection` actually point to the same `Connection`
+instance, since (at the time of writing) both `frwiki` and `ruwiki` live on the
+[same slice](https://noc.wikimedia.org/conf/highlight.php?file=dblists/s6.dblist).
+`ReplicasClient` knows to do this because it queries (and caches) the dblists at
+https://noc.wikimedia.org.
 
 ### PHP Code Sniffer
 
