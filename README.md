@@ -255,12 +255,16 @@ need to update these accordingly.
 
 In **production**, `REPLICAS_HOST` should be `*.web.db.svc.eqiad.wmflabs` (or `analytics`
 instead of `web`). Internally the asterisk simply gets replaced with the shard number.
-The `REPLICAS_PORT_` vars should be `3306` in production. For local environments, use any safe
-range of ports (such as 4711 for `s1`, 4712 for `s2`, and so on).
+The `REPLICAS_PORT_` vars should be `3306` in production. For **local environments**, use any
+safe range of ports (such as 4711 for `s1`, 4712 for `s2`, and so on), and use `127.0.0.1` as
+the `REPLICAS_HOST`.
 
 Next, establish an SSH tunnel to the replicas (only necessary on local environments):
 
     php bin/console toolforge:ssh
+
+Use the `--bind-address` flag to change the binding address, if needed. This may be necessary
+for Docker installations.
 
 To query the replicas, inject the `ReplicasClient` service then call the `getConnection()`
 method, passing in a valid database, and you should get a `Doctrine\DBAL\Connection` object.
