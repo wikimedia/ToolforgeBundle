@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Wikimedia\ToolforgeBundle\Service;
 
 use Doctrine\DBAL\Connection;
-use Symfony\Bridge\Doctrine\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
