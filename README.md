@@ -206,42 +206,42 @@ doctrine:
   dbal:
     connections:
       toolforge_s1:
-        host: '%env(REPLICAS_HOST)%'
+        host: '%env(REPLICAS_HOST_S1)%'
         port: '%env(REPLICAS_PORT_S1)%'
         user: '%env(REPLICAS_USERNAME)%'
         password: '%env(REPLICAS_PASSWORD)%'
       toolforge_s2:
-        host: '%env(REPLICAS_HOST)%'
+        host: '%env(REPLICAS_HOST_S2)%'
         port: '%env(REPLICAS_PORT_S2)%'
         user: '%env(REPLICAS_USERNAME)%'
         password: '%env(REPLICAS_PASSWORD)%'
       toolforge_s3:
-        host: '%env(REPLICAS_HOST)%'
+        host: '%env(REPLICAS_HOST_S3)%'
         port: '%env(REPLICAS_PORT_S3)%'
         user: '%env(REPLICAS_USERNAME)%'
         password: '%env(REPLICAS_PASSWORD)%'
       toolforge_s4:
-        host: '%env(REPLICAS_HOST)%'
+        host: '%env(REPLICAS_HOST_S4)%'
         port: '%env(REPLICAS_PORT_S4)%'
         user: '%env(REPLICAS_USERNAME)%'
         password: '%env(REPLICAS_PASSWORD)%'
       toolforge_s5:
-        host: '%env(REPLICAS_HOST)%'
+        host: '%env(REPLICAS_HOST_S5)%'
         port: '%env(REPLICAS_PORT_S5)%'
         user: '%env(REPLICAS_USERNAME)%'
         password: '%env(REPLICAS_PASSWORD)%'
       toolforge_s6:
-        host: '%env(REPLICAS_HOST)%'
+        host: '%env(REPLICAS_HOST_S6)%'
         port: '%env(REPLICAS_PORT_S6)%'
         user: '%env(REPLICAS_USERNAME)%'
         password: '%env(REPLICAS_PASSWORD)%'
       toolforge_s7:
-        host: '%env(REPLICAS_HOST)%'
+        host: '%env(REPLICAS_HOST_S7)%'
         port: '%env(REPLICAS_PORT_S7)%'
         user: '%env(REPLICAS_USERNAME)%'
         password: '%env(REPLICAS_PASSWORD)%'
       toolforge_s8:
-        host: '%env(REPLICAS_HOST)%'
+        host: '%env(REPLICAS_HOST_S8)%'
         port: '%env(REPLICAS_PORT_S8)%'
         user: '%env(REPLICAS_USERNAME)%'
         password: '%env(REPLICAS_PASSWORD)%'
@@ -249,15 +249,14 @@ doctrine:
 
 </details>
 
-Also adding the `REPLICAS_HOST`, `REPLICAS_USERNAME`, `REPLICAS_PASSWORD` and each
-`REPLICAS_PORT_` to .env as necessary. If new shards are added (which is rare), you will
+Also adding the `REPLICAS_HOST_`, `REPLICAS_USERNAME`, `REPLICAS_PASSWORD` and each
+`REPLICAS_PORT_` to .env as necessary. If new sections are added (which is rare), you will
 need to update these accordingly.
 
-In **production**, `REPLICAS_HOST` should be `*.web.db.svc.eqiad.wmflabs` (or `analytics`
-instead of `web`). Internally the asterisk simply gets replaced with the shard number.
-The `REPLICAS_PORT_` vars should be `3306` in production. For **local environments**, use any
-safe range of ports (such as 4711 for `s1`, 4712 for `s2`, and so on), and use `127.0.0.1` as
-the `REPLICAS_HOST`.
+In **production**, the `REPLICAS_HOST_S1` variables should be `s1.web.db.svc.eqiad.wmflabs`
+(or `analytics` instead of `web`), and similarly for each section. The `REPLICAS_PORT_` vars
+should be `3306` in production. For **local environments**, use `127.0.0.1` for the host vars
+and any safe range of ports (such as 4711 for `s1`, 4712 for `s2`, and so on).
 
 Next, establish an SSH tunnel to the replicas (only necessary on local environments):
 
@@ -281,7 +280,7 @@ For example:
 
 In this example, `$frConnection` and `$ruConnection` actually point to the same `Connection`
 instance, since (at the time of writing) both `frwiki` and `ruwiki` live on the
-[same slice](https://noc.wikimedia.org/conf/highlight.php?file=dblists/s6.dblist).
+[same section](https://noc.wikimedia.org/conf/highlight.php?file=dblists/s6.dblist).
 `ReplicasClient` knows to do this because it queries (and caches) the dblists at
 https://noc.wikimedia.org.
 
