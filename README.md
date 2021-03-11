@@ -121,7 +121,7 @@ In controllers, you can test whether the user is logged in by checking:
 After the user logs in, you may want to redirect them back to the page they originally tried to
 view, instead of the `home` route. To do this, first make sure you registered your OAuth consumer
 to accept a callback URL using the "Allow consumer to specify a callback..." option. The value for
-the callback would for example be `https://tools.wmflabs.org/my-tool/oauth_callback`.
+the callback would for example be `https://my-tool.toolforge.org/oauth_callback`.
 
 The implementation in your views is best explained by example. Let's assume the current page
 the user sees shows a login link, and you want to redirect them back to the same page after
@@ -133,10 +133,10 @@ Here `app.request.uri` evaluates to the current URL the user is viewing. It is p
 `redirect` for the `oauth_callback` route, which is provided as the `callback` for the `login` route.
 The URL for the login link ends up being something like:
 
-    https://tools.wmflabs.org/my-tool/login?callback=https%3A//tools.wmflabs.org/my-tool/oauth_callback%3Fredirect%3Dhttps%253A//tools.wmflabs.org/my-tool/my-page%253Ffoo%253Dbar
+    https://my-tool.toolforge.org/login?callback=https%3A//my-tool.toolforge.org/oauth_callback%3Fredirect%3Dhttps%253A//my-tool.toolforge.org/my-page%253Ffoo%253Dbar
 
 Note the double-encoding of the URL used for the value of `redirect`. In this example the user will
-ultimately be redirected back to `https://tools.wmflabs.org/my-tool/my-page?foo=bar`.
+ultimately be redirected back to `https://my-tool.toolforge.org/my-page?foo=bar`.
 
 ### Internationalization (Intuition and jQuery.i18n)
 
@@ -253,7 +253,7 @@ Also adding the `REPLICAS_HOST_`, `REPLICAS_USERNAME`, `REPLICAS_PASSWORD` and e
 `REPLICAS_PORT_` to .env as necessary. If new sections are added (which is rare), you will
 need to update these accordingly.
 
-In **production**, the `REPLICAS_HOST_S1` variables should be `s1.web.db.svc.eqiad.wmflabs`
+In **production**, the `REPLICAS_HOST_S1` variables should be `s1.web.db.svc.wikimedia.cloud`
 (or `analytics` instead of `web`), and similarly for each section. The `REPLICAS_PORT_` vars
 should be `3306` in production. For **local environments**, use `127.0.0.1` for the host vars
 and any safe range of ports (such as 4711 for `s1`, 4712 for `s2`, and so on).
@@ -344,9 +344,9 @@ This bundle is currently in use on the following projects:
 
 1. [Event Metrics](https://meta.wikimedia.org/wiki/Special:MyLanguage/Event_Metrics)
 2. [SVG Translate](https://commons.wikimedia.org/wiki/Special:MyLanguage/Commons:SVG_Translate_tool)
-3. [Global Search](https://tools.wmflabs.org/global-search)
+3. [Global Search](https://global-search.toolforge.org)
 4. [Flickr Dashboard](https://commons.wikimedia.org/wiki/Special:MyLanguage/Commons:Flickr_Dashboard)
-5. [Wikisource Export](https://wsexport.wmflabs.org)
+5. [Wikisource Export](https://wsexport.wmcloud.org)
 
 ## License
 
