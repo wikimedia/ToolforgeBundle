@@ -328,15 +328,17 @@ It should be added to your tool's crontab to run e.g. every ten minutes:
 
 ### Sessions
 
-By default Symfony uses `/` for sessions' cookie path,
-but this isn't secure on Toolforge
-because it means that different tools can access each other's cookies.
-To fix this, set the following in your `framework.yaml`:
+By default Symfony uses `/` for sessions' cookie path, but this isn't secure on Toolforge
+because it means that different tools can access each other's cookies. Additionally, Toolforge
+may by default use the fallback to the session expiry defined in php.ini, which is only
+24 minutes. To fix this, set the following in your `framework.yaml`:
 
     framework:
       session:
         storage_id: Wikimedia\ToolforgeBundle\Service\NativeSessionStorage
+        handler_id: 'session.handler.native_file'
         save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
+        cookie_lifetime: 604800 # one week
 
 ## Examples
 
