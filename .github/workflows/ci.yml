@@ -31,4 +31,4 @@ jobs:
         run: |
           composer install
           ./vendor/bin/phpcs
-          ./vendor/bin/simple-phpunit
+          SYMFONY_DEPRECATIONS_HELPER=disabled ./vendor/bin/simple-phpunit
