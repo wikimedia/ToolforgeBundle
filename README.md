@@ -349,6 +349,7 @@ This bundle is currently in use on the following projects:
 3. [Global Search](https://global-search.toolforge.org)
 4. [Flickr Dashboard](https://commons.wikimedia.org/wiki/Special:MyLanguage/Commons:Flickr_Dashboard)
 5. [Wikisource Export](https://wsexport.wmcloud.org)
+6. [Wikimedia OCR](https://ocr.wmcloud.org)
 
 ## License
 
