@@ -1,15 +1,15 @@
 #!/bin/bash
 
-if [[ "$#" -gt 4 || "$#" -lt 2  ]]; then
-    echo "USAGE: $0 <prod|dev> <app-dir> [--branch git-branch]"
+if [[ "$#" -gt 5 || "$#" -lt 2  ]]; then
+    echo "USAGE: $0 <prod|dev> <app-dir> [--branch git-branch] [--build-assets]"
     exit 1
 fi
 
 ## Get CLI parameters.
 MODE=$1
 if [ ! -d "$2" ]; then
-  echo "Directory doesn't exist: $2"
-  exit 1
+    echo "Directory doesn't exist: $2"
+    exit 1
 fi
 APP_DIR=$(cd "$2" && pwd)
 shift 2
@@ -17,14 +17,30 @@ shift 2
 cd "$APP_DIR" || exit
 
 BRANCH="master"
-if [[ "$1" == "--branch" && -n "$2" ]]; then
-    if [[ -z $(git ls-remote origin "$2") ]]; then
-        echo "$2 branch does not exist. Not deploying."
-        exit 0
-    else
-        BRANCH="$2"
-    fi
-fi
+BUILD_ASSETS=0
+
+# Our little param parser.
+while test $# -gt 0; do
+    case "$1" in
+        -b|--branch)
+            shift
+            if [[ -z $(git ls-remote origin "$1") ]]; then
+                echo "$1 branch does not exist. Not deploying."
+                exit 0
+            else
+              BRANCH="$1"
+            fi
+            shift
+            ;;
+        -a|--build-assets)
+            BUILD_ASSETS=1
+            shift 1
+            ;;
+        *)
+            break;
+            ;;
+    esac
+done
 
 ## Update the repo.
 git fetch --quiet origin 2>&1
@@ -69,3 +85,8 @@ fi
 composer install --no-dev --optimize-autoloader
 ./bin/console cache:clear
 ./bin/console doctrine:migrations:migrate --no-interaction
+
+# Build assets if requested.
+if [[ $BUILD_ASSETS == 1 ]]; then
+    npm run build
+fi
