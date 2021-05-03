@@ -88,5 +88,6 @@ composer install --no-dev --optimize-autoloader
 
 # Build assets if requested.
 if [[ $BUILD_ASSETS == 1 ]]; then
+    npm install --production
     npm run build
 fi
