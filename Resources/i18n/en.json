@@ -1,3 +1,5 @@
 {
-  "logout": "Logout"
+  "toolforge-login": "Log in",
+  "toolforge-logout": "Log out",
+  "toolforge-logged-in-as": "You are logged in as '$1'"
 }

@@ -55,4 +55,14 @@ class Intuition extends KrinkleIntuition
 
         return $intuition;
     }
+
+    /**
+     * Get names of all registered domains.
+     *
+     * @return string[]
+     */
+    public function getDomains(): array
+    {
+        return array_keys($this->domainInfos);
+    }
 }
