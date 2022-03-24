@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Wikimedia\ToolforgeBundle\Twig;
 
-use Krinkle\Intuition\Intuition;
 use NumberFormatter;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Process\Process;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
+use Wikimedia\ToolforgeBundle\Service\Intuition;
 
 class Extension extends AbstractExtension
 {
@@ -86,35 +86,46 @@ class Extension extends AbstractExtension
         return $message;
     }
 
-
     /**
      * See if a given i18n message exists.
      * If this returns false it means msg() would return "[message-key]"
-     * Parameters the same as msg(), except $fail which is overwritten.
+     *
      * @param string $message The message.
      * @param string[] $vars
      * @return bool
      */
     public function msgExists(string $message = '', array $vars = []): bool
     {
-        return $this->intuition->msgExists($message, [
-            'domain' => $this->domain,
-            'variables' => is_array($vars) ? $vars : [],
-        ]);
+        foreach ($this->intuition->getDomains() as $domain) {
+            $exists = $this->intuition->msgExists($message, [
+                'domain' => $domain,
+                'variables' => is_array($vars) ? $vars : [],
+            ]);
+            if ($exists) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
-     * Get an i18n message.
+     * Get an i18n message, searching all registered domains.
      * @param string $message
      * @param string[] $vars
      * @return mixed|null|string
      */
     public function msg(string $message = '', array $vars = [])
     {
-        return $this->intuition->msg($message, [
-            'domain' => $this->domain,
-            'variables' => $vars,
-        ]);
+        // Check all domains for this message.
+        foreach ($this->intuition->getDomains() as $domain) {
+            if ($this->intuition->msgExists($message, ['domain' => $domain])) {
+                return $this->intuition->msg($message, [
+                    'domain' => $domain,
+                    'variables' => $vars,
+                ]);
+            }
+        }
+        return $this->intuition->bracketMsg($message);
     }
 
     /**

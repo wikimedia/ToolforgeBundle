@@ -6,7 +6,7 @@ A Symfony 4 bundle that provides some common parts of web-based tools in Wikimed
 Features:
 
 * OAuth user authentication against [Meta Wiki](https://meta.wikimedia.org/).
-* Internationalization with the Intuition and jQuery.i18n libraries.
+* Internationalization with the [Intuition](https://intuition.toolforge.org/) and jQuery.i18n libraries.
 * Interface to connect and query the [replica databases](https://wikitech.wikimedia.org/wiki/Wiki_replicas)
 * PHP Code Sniffer ruleset
 * Base Wikimedia UI stylesheet (LESS)
@@ -93,10 +93,10 @@ to the full URL to `Special:OAuth`.
 Add a login link to the relevant Twig template (often `base.html.twig`), e.g.:
 
     {% if logged_in_user() %}
-      {{ msg( 'logged-in-as', [ logged_in_user().username ] ) }}
-      <a href="{{ path('toolforge_logout') }}">{{ msg('logout') }}</a>
+      {{ msg( 'toolforge-logged-in-as', [ logged_in_user().username ] ) }}
+      <a href="{{ path('toolforge_logout') }}">{{ msg('toolforge-logout') }}</a>
     {% else %}
-      <a href="{{ path('toolforge_login') }}">{{ msg('login') }}</a>
+      <a href="{{ path('toolforge_login') }}">{{ msg('toolforge-login') }}</a>
     {% endif %}
 
 The internationalization parts of this are explained below.
@@ -140,6 +140,11 @@ ultimately be redirected back to `https://my-tool.toolforge.org/my-page?foo=bar`
 
 ### Internationalization (Intuition and jQuery.i18n)
 
+Internationalization is handled similarly to how it is done in MediaWiki,
+with translated strings being stored in `i18n/` directories.
+The bundle comes with some strings of its own, all prefixed with `toolforge_`;
+it is recommended that these are used where possible because it reduces the work for translators.
+
 #### 1. PHP
 
 In PHP, set your application's i18n 'domain' with the following in `config/packages/toolforge.yaml`:
@@ -148,9 +153,9 @@ In PHP, set your application's i18n 'domain' with the following in `config/packa
         intuition:
             domain: 'app-name-here'
 
-You can inject Intuition into your controllers via type hinting, e.g.:
+You can inject (the bundle's subclass of) Intuition into your controllers via type hinting, e.g.:
 
-    public function indexAction( Request $request, Intuition $intuition ) { /*...*/ }
+    public function indexAction( Request $request, \Wikimedia\ToolforgeBundle\Service\Intuition $intuition ) { /*...*/ }
 
 The following Twig functions and filters are available:
 
@@ -182,7 +187,7 @@ In Javascript, you need to do three things to enable internationalisation:
        <script type="text/javascript" src="https://tools-static.wmflabs.org/cdnjs/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
        {% include '@toolforge/i18n.html.twig' %}
 
-   (The jQuery can of course be left out if you're already loading that through other means.)
+   (The jQuery can be left out if you're already loading that through other means.)
 
 3. And symlink your `i18n/` directory from `public/i18n/`,
    so that the language files can be loaded by from Javascript.

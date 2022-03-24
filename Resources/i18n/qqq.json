@@ -1,3 +1,5 @@
 {
-  "logout": "Text for logout link."
+  "toolforge-login": "Text for the log in link.",
+  "toolforge-logout": "Text for the log out link.",
+  "toolforge-logged-in-as": "Tooltip text showing the name of the current user.\n\nParameters:\n\n* $1 — the username of the logged-in user"
 }
