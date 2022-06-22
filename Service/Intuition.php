@@ -6,21 +6,18 @@ namespace Wikimedia\ToolforgeBundle\Service;
 
 use Krinkle\Intuition\Intuition as KrinkleIntuition;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class Intuition extends KrinkleIntuition
 {
 
     /**
      * @param RequestStack $requestStack
-     * @param SessionInterface $session
      * @param string $projectDir Root filesystem directory of the application.
      * @param string $domain The i18n domain.
      * @return Intuition
      */
     public static function serviceFactory(
         RequestStack $requestStack,
-        SessionInterface $session,
         string $projectDir,
         string $domain
     ): Intuition {
@@ -31,6 +28,7 @@ class Intuition extends KrinkleIntuition
         if (null !== $requestStack->getCurrentRequest()) {
             // Use lang from the request or the session.
             $queryLang = $requestStack->getCurrentRequest()->query->get('uselang');
+            $session = $requestStack->getSession();
             $sessionLang = $session->get('lang');
             if (!empty($queryLang)) {
                 $useLang = $queryLang;

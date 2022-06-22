@@ -18,7 +18,6 @@ services:
     factory: ['Wikimedia\ToolforgeBundle\Service\Intuition', serviceFactory]
     arguments:
       - "@request_stack"
-      - "@session"
       - "%kernel.project_dir%"
       - "%toolforge.intuition.domain%"
 
@@ -46,6 +45,6 @@ services:
   Wikimedia\ToolforgeBundle\Twig\Extension:
     arguments:
       - '@Krinkle\Intuition\Intuition'
-      - "@session"
+      - "@request_stack"
       - "%toolforge.intuition.domain%"
     tags: [ "twig.extension" ]

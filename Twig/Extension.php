@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Wikimedia\ToolforgeBundle\Twig;
 
 use NumberFormatter;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Process\Process;
 use Twig\Extension\AbstractExtension;
@@ -29,11 +30,11 @@ class Extension extends AbstractExtension
 
     public function __construct(
         Intuition $intuition,
-        Session $session,
+        RequestStack $requestStack,
         string $domain
     ) {
         $this->intuition = $intuition;
-        $this->session = $session;
+        $this->session = $requestStack->getSession();
         $this->domain = $domain;
     }
 
