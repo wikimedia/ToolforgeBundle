@@ -34,7 +34,9 @@ class Extension extends AbstractExtension
         string $domain
     ) {
         $this->intuition = $intuition;
-        $this->session = $requestStack->getSession();
+        if ($requestStack->getCurrentRequest() && $requestStack->getCurrentRequest()->hasSession()) {
+            $this->session = $requestStack->getCurrentRequest()->getSession();
+        }
         $this->domain = $domain;
     }
 
