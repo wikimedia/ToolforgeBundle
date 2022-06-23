@@ -26,19 +26,26 @@ class Intuition extends KrinkleIntuition
 
         // Current request doesn't exist in unit tests, in which case we'll fall back to English.
         if (null !== $requestStack->getCurrentRequest()) {
-            // Use lang from the request or the session.
-            $queryLang = $requestStack->getCurrentRequest()->query->get('uselang');
-            $session = $requestStack->getSession();
-            $sessionLang = $session->get('lang');
-            if (!empty($queryLang)) {
-                $useLang = $queryLang;
-            } elseif (!empty($sessionLang)) {
-                $useLang = $sessionLang;
+            $currentRequest = $requestStack->getCurrentRequest();
+            // Use lang from the 'lang' query parameter or the 'lang' session variable.
+            $queryLang = false;
+            if ($currentRequest->query->has('uselang')) {
+                $queryLang = $currentRequest->query->has('uselang');
+                if (!empty($queryLang)) {
+                    $useLang = $queryLang;
+                }
             }
-
-            // Save the language to the session.
-            if ($session->get('lang') !== $useLang) {
-                $session->set('lang', $useLang);
+            $sessionLang = false;
+            if ($currentRequest->hasSession()) {
+                $session = $currentRequest->getSession();
+                $sessionLang = $session->get('lang');
+                if (!empty($sessionLang)) {
+                    $useLang = $sessionLang;
+                }
+                // Save the language to the session.
+                if ($session->get('lang') !== $useLang) {
+                    $session->set('lang', $useLang);
+                }
             }
         }
 

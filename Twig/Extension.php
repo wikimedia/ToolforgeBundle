@@ -71,6 +71,9 @@ class Extension extends AbstractExtension
      */
     public function getLoggedInUser()
     {
+        if (!$this->session) {
+            return false;
+        }
         return $this->session->get('logged_in_user');
     }
 
