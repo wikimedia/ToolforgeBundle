@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Wikimedia\ToolforgeBundle\Twig;
 
 use NumberFormatter;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Process\Process;
 use Twig\Extension\AbstractExtension;
@@ -29,11 +30,13 @@ class Extension extends AbstractExtension
 
     public function __construct(
         Intuition $intuition,
-        Session $session,
+        RequestStack $requestStack,
         string $domain
     ) {
         $this->intuition = $intuition;
-        $this->session = $session;
+        if ($requestStack->getCurrentRequest() && $requestStack->getCurrentRequest()->hasSession()) {
+            $this->session = $requestStack->getCurrentRequest()->getSession();
+        }
         $this->domain = $domain;
     }
 
@@ -68,6 +71,9 @@ class Extension extends AbstractExtension
      */
     public function getLoggedInUser()
     {
+        if (!$this->session) {
+            return false;
+        }
         return $this->session->get('logged_in_user');
     }
 

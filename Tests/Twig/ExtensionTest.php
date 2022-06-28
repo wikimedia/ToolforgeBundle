@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Wikimedia\ToolforgeBundle\Tests\Twig;
 
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 use Wikimedia\ToolforgeBundle\Service\Intuition;
 use Wikimedia\ToolforgeBundle\Twig\Extension;
 
@@ -19,11 +21,14 @@ class ExtensionTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $session = new Session();
+        $requestStack = new RequestStack();
+        $request = new Request();
+        $request->setSession(new Session(new MockArraySessionStorage()));
+        $requestStack->push($request);
         $domain = 'toolforge';
         $rootDir = dirname(__DIR__, 2);
-        $intuition = Intuition::serviceFactory(new RequestStack(), $session, $rootDir, $domain);
-        $this->extension = new Extension($intuition, new Session(), $domain);
+        $intuition = Intuition::serviceFactory($requestStack, $rootDir, $domain);
+        $this->extension = new Extension($intuition, $requestStack, $domain);
     }
 
     public function testBasics(): void
