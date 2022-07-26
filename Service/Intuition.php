@@ -30,7 +30,7 @@ class Intuition extends KrinkleIntuition
             // Use lang from the 'lang' query parameter or the 'lang' session variable.
             $queryLang = false;
             if ($currentRequest->query->has('uselang')) {
-                $queryLang = $currentRequest->query->has('uselang');
+                $queryLang = $currentRequest->query->get('uselang');
                 if (!empty($queryLang)) {
                     $useLang = $queryLang;
                 }
