@@ -1,7 +1,7 @@
 Toolforge Bundle
 ================
 
-A Symfony 4 bundle that provides some common parts of web-based tools in Wikimedia Toolforge.
+A Symfony 4/5 bundle that provides some common parts of web-based tools in Wikimedia Toolforge.
 
 Features:
 
@@ -44,7 +44,21 @@ or on [Phabricator](https://phabricator.wikimedia.org/tag/community-tech) (tagge
 
 ## Installation
 
-Install the code (in an existing Symfony project):
+### New project
+
+To get a new project up and running quickly
+first make sure you've got [Composer](https://getcomposer.org) and the [Symfony CLI](https://symfony.com/download) installed
+and then use the [Toolforge Skeleton](https://packagist.org/packages/wikimedia/toolforge-skeleton):
+
+    composer create-project wikimedia/toolforge-skeleton ./my-cool-tool
+    cd my-cool-tool
+    symfony server:start -d
+
+Navigate to http://localhost:8000 and you should see your new tool up and running.
+
+### Existing project
+
+Install the code in an existing Symfony project:
 
     composer require wikimedia/toolforge-bundle
 
