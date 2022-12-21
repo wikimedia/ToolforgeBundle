@@ -37,7 +37,12 @@
         "symfony/console": "^4.4|^5.2"
     },
     "require-dev": {
-        "slevomat/coding-standard": "^4.8",
+        "slevomat/coding-standard": "^8.0",
         "symfony/phpunit-bridge": "^4.4"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": false
+        }
     }
 }
