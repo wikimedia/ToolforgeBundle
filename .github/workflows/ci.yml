@@ -11,24 +11,28 @@ on:
 jobs:
   build:
 
+    strategy:
+      matrix:
+        php: [ '7.4', '8.0', '8.1' ]
+
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v3
 
       - name: ShellCheck
-        uses: ludeeus/action-shellcheck@1.0.0
+        uses: ludeeus/action-shellcheck@master
         with:
           scandir: './bin'
 
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 7.2
+          php-version: ${{matrix.php}}
 
       - name: Test
         run: |
           composer install
-          ./vendor/bin/phpcs
+          ./vendor/bin/phpcs -s
           SYMFONY_DEPRECATIONS_HELPER=disabled ./vendor/bin/simple-phpunit

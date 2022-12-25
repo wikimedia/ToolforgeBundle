@@ -4,8 +4,9 @@
 
     <!-- Slevomat standards; see https://github.com/slevomat/coding-standard -->
     <config name="installed_paths" value="../../slevomat/coding-standard"/><!-- relative path from PHPCS source location -->
-    <rule ref="SlevomatCodingStandard.TypeHints.TypeHintDeclaration">
-        <exclude name="SlevomatCodingStandard.TypeHints.TypeHintDeclaration.UselessDocComment"/>
+    <rule ref="SlevomatCodingStandard.TypeHints.ParameterTypeHint">
+        <exclude name="SlevomatCodingStandard.TypeHints.ParameterTypeHint.UselessAnnotation" />
+        <exclude name="SlevomatCodingStandard.TypeHints.ParameterTypeHint.UselessSuppress" />
     </rule>
     <rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes">
         <exclude

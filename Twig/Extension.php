@@ -195,6 +195,7 @@ class Extension extends AbstractExtension
      * Whether the current (or specified) language is right-to-left.
      * @param string|bool $lang Language code (if false, will use current language).
      * @return bool
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     public function isRtl($lang = false): bool
     {
@@ -268,6 +269,7 @@ class Extension extends AbstractExtension
      * @param int|float $number
      * @param int $decimals Number of decimals to format to.
      * @return string
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
     public function numberFormat($number, int $decimals = 0): string
     {
