@@ -84,7 +84,11 @@ fi
 ## Prod and dev sites: install the application.
 composer install --no-dev --optimize-autoloader
 ./bin/console cache:clear
-./bin/console doctrine:migrations:migrate --no-interaction
+
+## Run migration command if migration folder exists.
+if [[ -d "migrations" ]]; then
+    ./bin/console doctrine:migrations:migrate --no-interaction
+fi
 
 # Build assets if requested.
 if [[ $BUILD_ASSETS == 1 ]]; then
