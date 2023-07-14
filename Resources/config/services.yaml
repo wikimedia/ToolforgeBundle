@@ -45,6 +45,7 @@ services:
   Wikimedia\ToolforgeBundle\Twig\Extension:
     arguments:
       - '@Krinkle\Intuition\Intuition'
+      - "@cache.app"
       - "@request_stack"
       - "%toolforge.intuition.domain%"
     tags: [ "twig.extension" ]

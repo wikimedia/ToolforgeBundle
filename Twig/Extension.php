@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace Wikimedia\ToolforgeBundle\Twig;
 
+use DateInterval;
 use NumberFormatter;
+use Psr\Cache\CacheItemInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Process\Process;
+use Symfony\Contracts\Cache\CacheInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
@@ -18,6 +21,9 @@ class Extension extends AbstractExtension
 
     /** @var Intuition */
     protected $intuition;
+
+    /** @var CacheInterface */
+    private $cache;
 
     /** @var Session */
     protected $session;
@@ -30,10 +36,12 @@ class Extension extends AbstractExtension
 
     public function __construct(
         Intuition $intuition,
+        CacheInterface $cache,
         RequestStack $requestStack,
         string $domain
     ) {
         $this->intuition = $intuition;
+        $this->cache = $cache;
         if ($requestStack->getCurrentRequest() && $requestStack->getCurrentRequest()->hasSession()) {
             $this->session = $requestStack->getCurrentRequest()->getSession();
         }
@@ -211,12 +219,15 @@ class Extension extends AbstractExtension
      */
     public function gitTag(): string
     {
-        $process = new Process(['git', 'describe', '--tags', '--always']);
-        $process->run();
-        if (!$process->isSuccessful()) {
-            return $this->gitHashShort();
-        }
-        return trim($process->getOutput());
+        return $this->cache->get('toolforgebundle-git-tag', function (CacheItemInterface $cacheItem) {
+            $cacheItem->expiresAfter(new DateInterval('PT10M'));
+            $process = new Process(['git', 'describe', '--tags', '--always']);
+            $process->run();
+            if (!$process->isSuccessful()) {
+                return $this->gitHashShort();
+            }
+            return trim($process->getOutput());
+        });
     }
 
     /**
@@ -225,9 +236,7 @@ class Extension extends AbstractExtension
      */
     public function gitBranch(): string
     {
-        $process = new Process(['git', 'rev-parse', '--symbolic-full-name', '--abbrev-ref', 'HEAD']);
-        $process->run();
-        return trim($process->getOutput());
+        return $this->gitCommand('git-branch', ['git', 'rev-parse', '--symbolic-full-name', '--abbrev-ref', 'HEAD']);
     }
 
     /**
@@ -236,9 +245,7 @@ class Extension extends AbstractExtension
      */
     public function gitHash(): string
     {
-        $process = new Process(['git', 'rev-parse', 'HEAD']);
-        $process->run();
-        return trim($process->getOutput());
+        return $this->gitCommand('git-hash', ['git', 'rev-parse', 'HEAD']);
     }
 
     /**
@@ -247,9 +254,21 @@ class Extension extends AbstractExtension
      */
     public function gitHashShort(): string
     {
-        $process = new Process(['git', 'rev-parse', '--short', 'HEAD']);
-        $process->run();
-        return trim($process->getOutput());
+        return $this->gitCommand('git-hash-short', ['git', 'rev-parse', '--short', 'HEAD']);
+    }
+
+    /**
+     * @param string[] $command Command parts.
+     */
+    private function gitCommand(string $cacheKey, array $command): string
+    {
+        $key = 'toolforge-bundle-'.$cacheKey;
+        return $this->cache->get($key, function (CacheItemInterface $cacheItem) use ($command) {
+            $cacheItem->expiresAfter(new DateInterval('PT10M'));
+            $process = new Process($command);
+            $process->run();
+            return trim($process->getOutput());
+        });
     }
 
     /**
