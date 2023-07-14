@@ -264,6 +264,12 @@ doctrine:
         port: '%env(REPLICAS_PORT_S8)%'
         user: '%env(REPLICAS_USERNAME)%'
         password: '%env(REPLICAS_PASSWORD)%'
+      # If you need to work with toolsdb
+      toolforge_toolsdb:
+        host: '%env(TOOLSDB_HOST)%'
+        port: '%env(TOOLSDB_PORT)%'
+        user: '%env(TOOLSDB_USERNAME)%'
+        password: '%env(TOOLSDB_PASSWORD)%'
 ```
 
 </details>
@@ -283,6 +289,11 @@ Next, establish an SSH tunnel to the replicas (only necessary on local environme
 
 Use the `--bind-address` flag to change the binding address, if needed. This may be necessary
 for Docker installations.
+
+If you need to work against [tools-db](https://wikitech.wikimedia.org/wiki/Help:Toolforge/Database#User_databases),
+pass the `--toolsdb` flag and make sure the `TOOLSBD_` env variables are set correctly.
+Unless you have a private database, you should be able to use the same username and password
+as `REPLICAS_USERNAME` and `REPLICAS_PASSWORD`.
 
 To query the replicas, inject the `ReplicasClient` service then call the `getConnection()`
 method, passing in a valid database, and you should get a `Doctrine\DBAL\Connection` object.

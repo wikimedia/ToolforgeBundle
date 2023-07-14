@@ -68,8 +68,14 @@ class SshCommand extends Command
         $this->addOption(
             'bind-address',
             'b',
-            InputOption::VALUE_OPTIONAL,
+            InputOption::VALUE_REQUIRED,
             "Sets the binding address of the SSH tunnel. For Docker installations you may need to set this to 0.0.0.0"
+        );
+        $this->addOption(
+            'toolsdb',
+            null,
+            InputOption::VALUE_NONE,
+            'Sets up an SSH tunnel to tools.db.svc.wikimedia.cloud'
         );
     }
 
@@ -84,10 +90,12 @@ class SshCommand extends Command
         $username = $input->getArgument('username');
         $service = $input->getOption('service');
         $bindAddress = $input->getOption('bind-address');
+        $toolsDb = $input->getOption('toolsdb');
         $host = "$service".self::HOST_SUFFIX;
         $login = $username.'@'.self::LOGIN_URL;
 
-        $output->writeln("Connecting to *.$host via $login... use ^C to cancel or terminate connection.");
+        $toolsDbStr = $toolsDb ? ' and tools'.self::HOST_SUFFIX : '';
+        $output->writeln("Connecting to *.$host$toolsDbStr via $login... use ^C to cancel or terminate connection.");
 
         $slices = array_unique(array_values($this->client->getDbList()));
         $processArgs = ['ssh', '-N'];
@@ -98,6 +106,11 @@ class SshCommand extends Command
                 $arg = $bindAddress.':'.$arg;
             }
             $processArgs[] = $arg;
+        }
+        if ($toolsDb) {
+            $processArgs[] = '-L';
+            $port = $this->client->getPortForSlice('toolsdb');
+            $processArgs[] = $port.':tools'.self::HOST_SUFFIX.':3306';
         }
         $processArgs[] = $login;
 
