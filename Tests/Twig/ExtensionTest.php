@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Wikimedia\ToolforgeBundle\Tests\Twig;
 
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Cache\Adapter\NullAdapter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -28,7 +29,8 @@ class ExtensionTest extends TestCase
         $domain = 'toolforge';
         $rootDir = dirname(__DIR__, 2);
         $intuition = Intuition::serviceFactory($requestStack, $rootDir, $domain);
-        $this->extension = new Extension($intuition, $requestStack, $domain);
+        $cache = new NullAdapter();
+        $this->extension = new Extension($intuition, $cache, $requestStack, $domain);
     }
 
     public function testBasics(): void

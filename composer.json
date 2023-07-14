@@ -1,48 +1,57 @@
 {
-    "name": "wikimedia/toolforge-bundle",
-    "description": "Symfony 4 bundle providing useful Toolforge features.",
-    "type": "symfony-bundle",
-    "license": "GPL-3.0-or-later",
-    "homepage": "https://github.com/wikimedia/toolforgebundle",
-    "support": {
-        "issues": "https://github.com/wikimedia/toolforgebundle/issues",
-        "source": "https://github.com/wikimedia/toolforgebundle",
-        "forum": "https://discourse-mediawiki.wmflabs.org/"
-    },
-    "authors": [
-        {
-            "name": "Sam Wilson",
-            "email": "sam@samwilson.id.au"
-        }
-    ],
-    "autoload": {
-        "psr-4": {
-            "Wikimedia\\ToolforgeBundle\\": "./"
-        }
-    },
-    "require": {
-        "ext-intl": "*",
-        "krinkle/intuition": "^2.3",
-        "mediawiki/oauthclient": "^1.0",
-        "symfony/config": "^4.4|^5.0",
-        "symfony/http-kernel": "^4.4|^5.0",
-        "symfony/process": "^4.4|^5.0",
-        "symfony/routing": "^4.4|^5.0",
-        "symfony/twig-bridge": "^4.4|^5.0",
-        "twig/twig": "^2.4||^3.0",
-        "symfony/http-client": "^4.4|^5.0",
-        "symfony/cache": "^4.4|^5.0",
-        "doctrine/doctrine-bundle": "^2.2",
-        "symfony/dependency-injection": "^4.4|^5.1",
-        "symfony/console": "^4.4|^5.2"
-    },
-    "require-dev": {
-        "slevomat/coding-standard": "^8.0",
-        "symfony/phpunit-bridge": "^4.4"
-    },
-    "config": {
-        "allow-plugins": {
-            "dealerdirect/phpcodesniffer-composer-installer": false
-        }
-    }
+	"name": "wikimedia/toolforge-bundle",
+	"description": "Symfony 4 & 5 bundle providing useful Toolforge features.",
+	"type": "symfony-bundle",
+	"license": "GPL-3.0-or-later",
+	"homepage": "https://github.com/wikimedia/toolforgebundle",
+	"support": {
+		"issues": "https://phabricator.wikimedia.org/tag/toolforgebundle/",
+		"source": "https://github.com/wikimedia/toolforgebundle"
+	},
+	"authors": [
+		{
+			"name": "Sam Wilson",
+			"email": "sam@samwilson.id.au"
+		}
+	],
+	"autoload": {
+		"psr-4": {
+			"Wikimedia\\ToolforgeBundle\\": "./"
+		}
+	},
+	"require": {
+		"ext-intl": "*",
+		"krinkle/intuition": "^2.3",
+		"mediawiki/oauthclient": "^1.0",
+		"symfony/config": "^4.4|^5.0",
+		"symfony/http-kernel": "^4.4|^5.0",
+		"symfony/process": "^4.4|^5.0",
+		"symfony/routing": "^4.4|^5.0",
+		"symfony/twig-bridge": "^4.4|^5.0",
+		"twig/twig": "^2.4||^3.0",
+		"symfony/http-client": "^4.4|^5.0",
+		"symfony/cache": "^4.4|^5.0",
+		"doctrine/doctrine-bundle": "^2.2",
+		"symfony/dependency-injection": "^4.4|^5.1",
+		"symfony/console": "^4.4|^5.2"
+	},
+	"require-dev": {
+		"slevomat/coding-standard": "^8.0",
+		"symfony/phpunit-bridge": "^4.4"
+	},
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": false
+		}
+	},
+	"scripts": {
+		"test": [
+			"composer validate",
+			"phpcs -s .",
+			"simple-phpunit"
+		],
+		"fix": [
+			"phpcbf"
+		]
+	}
 }
