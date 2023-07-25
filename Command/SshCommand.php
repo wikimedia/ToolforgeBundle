@@ -46,17 +46,12 @@ class SshCommand extends Command
      */
     protected function configure(): void
     {
-        $whoAmI = new Process(['whoami']);
-        $whoAmI->run();
-        $username = trim($whoAmI->getOutput());
-
         $this->setDescription('Create an SSH tunnel to the Toolforge replicas.');
         $this->setHelp('Note you must already have added your SSH key to the ssh-agent before running this.');
         $this->addArgument(
             'username',
             InputArgument::OPTIONAL,
-            'Your Toolforge UNIX shell username, if different than your local username.',
-            $username
+            'Your Toolforge UNIX shell username, if different than your local username.'
         );
         $this->addOption(
             'service',
@@ -92,7 +87,7 @@ class SshCommand extends Command
         $bindAddress = $input->getOption('bind-address');
         $toolsDb = $input->getOption('toolsdb');
         $host = "$service".self::HOST_SUFFIX;
-        $login = $username.'@'.self::LOGIN_URL;
+        $login = $username ? $username.'@'.self::LOGIN_URL : self::LOGIN_URL;
 
         $toolsDbStr = $toolsDb ? ' and tools'.self::HOST_SUFFIX : '';
         $output->writeln("Connecting to *.$host$toolsDbStr via $login... use ^C to cancel or terminate connection.");
