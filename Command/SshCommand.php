@@ -99,6 +99,15 @@ class SshCommand extends Command
 
         $slices = array_unique(array_values($this->client->getDbList()));
         $processArgs = ['ssh', '-N'];
+
+        if ($output->isVerbose()) {
+            $processArgs[] = '-v';
+        } elseif ($output->isVeryVerbose()) {
+            $processArgs[] = '-vv';
+        } elseif ($output->isDebug()) {
+            $processArgs[] = '-vvv';
+        }
+
         foreach ($slices as $slice) {
             $processArgs[] = '-L';
             $arg = $this->client->getPortForSlice($slice).":$slice.$host:3306";
@@ -110,7 +119,11 @@ class SshCommand extends Command
         if ($toolsDb) {
             $processArgs[] = '-L';
             $port = $this->client->getPortForSlice('toolsdb');
-            $processArgs[] = $port.':tools'.self::HOST_SUFFIX.':3306';
+            $arg = $port.':tools'.self::HOST_SUFFIX.':3306';
+            if ($bindAddress) {
+                $arg = $bindAddress.':'.$arg;
+            }
+            $processArgs[] = $arg;
         }
         $processArgs[] = $login;
 
