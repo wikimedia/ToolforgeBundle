@@ -23,7 +23,7 @@ Still to come:
 [![Packagist](https://img.shields.io/packagist/v/wikimedia/toolforge-bundle.svg)](https://packagist.org/packages/wikimedia/toolforge-bundle)
 [![License](https://img.shields.io/github/license/wikimedia/ToolforgeBundle.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![GitHub issues](https://img.shields.io/github/issues/wikimedia/ToolforgeBundle.svg)](https://github.com/wikimedia/ToolforgeBundle/issues)
-[![Build Status](https://travis-ci.org/wikimedia/ToolforgeBundle.svg)](https://travis-ci.org/wikimedia/ToolforgeBundle)
+[![Build Status](https://github.com/wikimedia/ToolforgeBundle/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/wikimedia/ToolforgeBundle/actions/workflows/ci.yml?query=branch%3Amaster)
 
 Please report all issues either on [Github](https://github.com/wikimedia/ToolforgeBundle/issues)
 or on [Phabricator](https://phabricator.wikimedia.org/tag/community-tech) (tagged with `community-tech`).
@@ -380,6 +380,7 @@ This bundle is currently in use on the following projects:
 4. [Flickr Dashboard](https://commons.wikimedia.org/wiki/Special:MyLanguage/Commons:Flickr_Dashboard)
 5. [Wikisource Export](https://wsexport.wmcloud.org)
 6. [Wikimedia OCR](https://ocr.wmcloud.org)
+7. [CopyPatrol](https://copypatrol.toolforge.org)
 
 ## License
 
