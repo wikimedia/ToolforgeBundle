@@ -377,10 +377,11 @@ This bundle is currently in use on the following projects:
 1. [Event Metrics](https://meta.wikimedia.org/wiki/Special:MyLanguage/Event_Metrics)
 2. [SVG Translate](https://commons.wikimedia.org/wiki/Special:MyLanguage/Commons:SVG_Translate_tool)
 3. [Global Search](https://global-search.toolforge.org)
-4. [Flickr Dashboard](https://commons.wikimedia.org/wiki/Special:MyLanguage/Commons:Flickr_Dashboard)
+4. [Flickr Dashboard](https://flickrdash.toolforge.org)
 5. [Wikisource Export](https://wsexport.wmcloud.org)
 6. [Wikimedia OCR](https://ocr.wmcloud.org)
 7. [CopyPatrol](https://copypatrol.toolforge.org)
+8. [Wikisource Contests](https://wscontest.toolforge.org)
 
 ## License
 
