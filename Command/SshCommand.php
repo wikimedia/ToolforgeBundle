@@ -72,6 +72,12 @@ class SshCommand extends Command
             InputOption::VALUE_NONE,
             'Sets up an SSH tunnel to tools.db.svc.wikimedia.cloud'
         );
+        $this->addOption(
+            'trove',
+            null,
+            InputOption::VALUE_REQUIRED,
+            'Sets up an SSH tunnel to a Trove database. Provide the hostname of the Trove database to connect to.'
+        );
     }
 
     /**
@@ -86,6 +92,7 @@ class SshCommand extends Command
         $service = $input->getOption('service');
         $bindAddress = $input->getOption('bind-address');
         $toolsDb = $input->getOption('toolsdb');
+        $trove = $input->getOption('trove');
         $host = "$service".self::HOST_SUFFIX;
         $login = $username ? $username.'@'.self::LOGIN_URL : self::LOGIN_URL;
 
@@ -115,6 +122,15 @@ class SshCommand extends Command
             $processArgs[] = '-L';
             $port = $this->client->getPortForSlice('toolsdb');
             $arg = $port.':tools'.self::HOST_SUFFIX.':3306';
+            if ($bindAddress) {
+                $arg = $bindAddress.':'.$arg;
+            }
+            $processArgs[] = $arg;
+        }
+        if ($trove) {
+            $processArgs[] = '-L';
+            $port = $this->client->getPortForSlice('trove');
+            $arg = "$port:$trove:3306";
             if ($bindAddress) {
                 $arg = $bindAddress.':'.$arg;
             }

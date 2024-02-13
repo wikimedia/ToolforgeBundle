@@ -270,6 +270,12 @@ doctrine:
         port: '%env(TOOLSDB_PORT)%'
         user: '%env(TOOLSDB_USERNAME)%'
         password: '%env(TOOLSDB_PASSWORD)%'
+      # If you need to work with a Trove database
+      toolforge_trove:
+        host: '%env(TROVE_HOST)%'
+        port: '%env(TROVE_PORT)%'
+        user: '%env(TROVE_USERNAME)%'
+        password: '%env(TROVE_PASSWORD)%'
 ```
 
 </details>
@@ -294,6 +300,10 @@ If you need to work against [tools-db](https://wikitech.wikimedia.org/wiki/Help:
 pass the `--toolsdb` flag and make sure the `TOOLSBD_` env variables are set correctly.
 Unless you have a private database, you should be able to use the same username and password
 as `REPLICAS_USERNAME` and `REPLICAS_PASSWORD`.
+
+If you need to work against a [Trove database](https://wikitech.wikimedia.org/wiki/Help:Trove_database_user_guide),
+pass the `--trove` flag, supplying the hostname, and make sure the `TROVE_` env variables are set correctly.
+The credentials for this are separate from the replicas and toolsdb.
 
 To query the replicas, inject the `ReplicasClient` service then call the `getConnection()`
 method, passing in a valid database, and you should get a `Doctrine\DBAL\Connection` object.
