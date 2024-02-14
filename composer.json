@@ -37,7 +37,7 @@
 	},
 	"require-dev": {
 		"slevomat/coding-standard": "^8.0",
-		"symfony/phpunit-bridge": "^4.4"
+		"symfony/phpunit-bridge": "^4.4|^5.1"
 	},
 	"config": {
 		"allow-plugins": {
