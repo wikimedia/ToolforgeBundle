@@ -39,7 +39,7 @@ class Intuition extends KrinkleIntuition
             if ($currentRequest->hasSession()) {
                 $session = $currentRequest->getSession();
                 $sessionLang = $session->get('lang');
-                if (!empty($sessionLang)) {
+                if (!$queryLang && !empty($sessionLang)) {
                     $useLang = $sessionLang;
                 }
                 // Save the language to the session.
@@ -50,7 +50,7 @@ class Intuition extends KrinkleIntuition
         }
 
         // Set up Intuition, using the selected language.
-        $intuition = new static(['domain' => $domain]);
+        $intuition = new static(['domain' => $domain, 'param' => false]);
         $intuition->registerDomain($domain, $projectDir.'/i18n');
         $intuition->registerDomain('toolforge', dirname(__DIR__).'/Resources/i18n');
         $intuition->setLang(strtolower($useLang));
