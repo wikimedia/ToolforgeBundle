@@ -1,6 +1,6 @@
 {
 	"name": "wikimedia/toolforge-bundle",
-	"description": "Symfony 4 & 5 bundle providing useful Toolforge features.",
+	"description": "Symfony bundle providing useful Toolforge features.",
 	"type": "symfony-bundle",
 	"license": "GPL-3.0-or-later",
 	"homepage": "https://github.com/wikimedia/toolforgebundle",
@@ -23,21 +23,21 @@
 		"ext-intl": "*",
 		"krinkle/intuition": "^2.3",
 		"mediawiki/oauthclient": "^2.0",
-		"symfony/config": "^4.4|^5.0",
-		"symfony/http-kernel": "^4.4|^5.0",
-		"symfony/process": "^4.4|^5.0",
-		"symfony/routing": "^4.4|^5.0",
-		"symfony/twig-bridge": "^4.4|^5.0",
-		"twig/twig": "^2.4||^3.0",
-		"symfony/http-client": "^4.4|^5.0",
-		"symfony/cache": "^4.4|^5.0",
+		"symfony/config": "^4.4|^5.0|^7.0",
+		"symfony/http-kernel": "^4.4|^5.0|^7.0",
+		"symfony/process": "^4.4|^5.0|^7.0",
+		"symfony/routing": "^4.4|^5.0|^7.0",
+		"symfony/twig-bridge": "^4.4|^5.0|^7.0",
+		"twig/twig": "^2.4|^3.0",
+		"symfony/http-client": "^4.4|^5.0|^7.0",
+		"symfony/cache": "^4.4|^5.0|^7",
 		"doctrine/doctrine-bundle": "^2.2",
-		"symfony/dependency-injection": "^4.4|^5.1",
-		"symfony/console": "^4.4|^5.2"
+		"symfony/dependency-injection": "^4.4|^5.1|^7",
+		"symfony/console": "^4.4|^5.2|^7"
 	},
 	"require-dev": {
 		"slevomat/coding-standard": "^8.0",
-		"symfony/phpunit-bridge": "^4.4|^5.1"
+		"symfony/phpunit-bridge": "^4.4|^5.1|^7"
 	},
 	"config": {
 		"allow-plugins": {
