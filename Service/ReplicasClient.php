@@ -17,7 +17,7 @@ class ReplicasClient
     /** @var string Prefix URL for where the dblists live. Will be followed by i.e. 's1.dblist' */
     public const DBLISTS_URL = 'https://noc.wikimedia.org/conf/dblists/';
 
-    /** @var string DateInterval duration for how long the dblist should be cached. */
+    /** @var int DateInterval duration for how long the dblist should be cached. */
     public const DBLIST_CACHE_DURATION = 60 * 60 * 24 * 7; // 1 week
 
     /** @var HttpClientInterface The HTTP client. */
