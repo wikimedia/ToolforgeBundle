@@ -305,6 +305,8 @@ If you need to work against a [Trove database](https://wikitech.wikimedia.org/wi
 pass the `--trove` flag, supplying the hostname, and make sure the `TROVE_` env variables are set correctly.
 The credentials for this are separate from the replicas and toolsdb.
 
+If your Toolforge UNIX shell username is different than your local, you'll need to specify it with `--username`.
+
 To query the replicas, inject the `ReplicasClient` service then call the `getConnection()`
 method, passing in a valid database, and you should get a `Doctrine\DBAL\Connection` object.
 For example:
