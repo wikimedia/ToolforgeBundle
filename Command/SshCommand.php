@@ -19,9 +19,6 @@ use Wikimedia\ToolforgeBundle\Service\ReplicasClient;
 class SshCommand extends Command
 {
 
-    /** @var string */
-    protected static $defaultName = 'toolforge:ssh';
-
     /** @var ReplicasClient */
     protected $client;
 
@@ -38,7 +35,7 @@ class SshCommand extends Command
     public function __construct(ReplicasClient $client)
     {
         $this->client = $client;
-        parent::__construct();
+        parent::__construct('toolforge:ssh');
     }
 
     /**
