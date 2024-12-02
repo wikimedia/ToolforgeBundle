@@ -1,7 +1,7 @@
 Toolforge Bundle
 ================
 
-A Symfony 4/5 bundle that provides some common parts of web-based tools in Wikimedia Toolforge.
+A Symfony 5/6/7 bundle that provides some common parts of web-based tools in Wikimedia Toolforge.
 
 Features:
 
