@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class AuthController extends AbstractController
@@ -17,9 +17,9 @@ class AuthController extends AbstractController
 
     /**
      * Redirect to Meta for Oauth authentication.
-     * @Route("/login", name="toolforge_login")
      * @return RedirectResponse
      */
+    #[Route("/login", name:"toolforge_login")]
     public function loginAction(Request $request, Client $oauthClient, Session $session): RedirectResponse
     {
         // Automatically log in a development user if defined.
@@ -53,10 +53,10 @@ class AuthController extends AbstractController
 
     /**
      * Receive authentication credentials back from the OAuth wiki.
-     * @Route("/oauth_callback", name="toolforge_oauth_callback")
      * @param Request $request The HTTP request.
      * @return RedirectResponse
      */
+    #[Route("/oauth_callback", name:"toolforge_oauth_callback")]
     public function oauthCallbackAction(Request $request, Session $session, Client $client): RedirectResponse
     {
         // Give up if the required GET params or stored request token don't exist.
@@ -94,9 +94,9 @@ class AuthController extends AbstractController
 
     /**
      * Log out the user and return to the homepage.
-     * @Route("/logout", name="toolforge_logout")
      * @return RedirectResponse
      */
+    #[Route("/logout", name:"toolforge_logout")]
     public function logoutAction(Session $session): RedirectResponse
     {
         $session->invalidate();
