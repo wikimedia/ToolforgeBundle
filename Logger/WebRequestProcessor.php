@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Wikimedia\ToolforgeBundle\Logger;
 
+use Monolog\LogRecord;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
@@ -22,10 +23,10 @@ class WebRequestProcessor
     /**
      * Adds extra information to the log entry.
      * @see https://symfony.com/doc/current/logging/processors.html
-     * @param mixed[] $record
-     * @return mixed[]
+     * @param array|LogRecord $record
+     * @return array|LogRecord
      */
-    public function __invoke(array $record): array
+    public function __invoke($record): mixed
     {
         $request = $this->requestStack->getCurrentRequest();
 
