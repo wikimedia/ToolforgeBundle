@@ -23,16 +23,23 @@ class WebRequestProcessor
     /**
      * Adds extra information to the log entry.
      * @see https://symfony.com/doc/current/logging/processors.html
-     * @param array|LogRecord $record
-     * @return array|LogRecord
+     * @param mixed[]|LogRecord $record
+     * @return mixed[]|LogRecord
      */
-    public function __invoke($record): mixed
+    public function __invoke(mixed $record): mixed
     {
         $request = $this->requestStack->getCurrentRequest();
 
         if ($request) {
-            $record['extra']['host'] = $request->getHost();
-            $record['extra']['uri'] = $request->getUri();
+            if ($record instanceof LogRecord) {
+                $record->offsetSet('extra', [
+                    'host' => $request->getHost(),
+                    'uri' => $request->getUri(),
+                ]);
+            } else {
+                $record['extra']['host'] = $request->getHost();
+                $record['extra']['uri'] = $request->getUri();
+            }
         }
 
         return $record;
