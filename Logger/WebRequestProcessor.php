@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Wikimedia\ToolforgeBundle\Logger;
 
+use Monolog\LogRecord;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
@@ -22,16 +23,23 @@ class WebRequestProcessor
     /**
      * Adds extra information to the log entry.
      * @see https://symfony.com/doc/current/logging/processors.html
-     * @param mixed[] $record
-     * @return mixed[]
+     * @param mixed[]|LogRecord $record
+     * @return mixed[]|LogRecord
      */
-    public function __invoke(array $record): array
+    public function __invoke(mixed $record): mixed
     {
         $request = $this->requestStack->getCurrentRequest();
 
         if ($request) {
-            $record['extra']['host'] = $request->getHost();
-            $record['extra']['uri'] = $request->getUri();
+            if ($record instanceof LogRecord) {
+                $record->offsetSet('extra', [
+                    'host' => $request->getHost(),
+                    'uri' => $request->getUri(),
+                ]);
+            } else {
+                $record['extra']['host'] = $request->getHost();
+                $record['extra']['uri'] = $request->getUri();
+            }
         }
 
         return $record;
