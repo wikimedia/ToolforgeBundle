@@ -48,7 +48,7 @@
 		"test": [
 			"composer validate",
 			"phpcs -s .",
-			"simple-phpunit"
+			"simple-phpunit --display-deprecations --display-phpunit-deprecations"
 		],
 		"fix": [
 			"phpcbf"

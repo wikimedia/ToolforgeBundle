@@ -37,6 +37,6 @@ class ReplicasClientTest extends TestCase
         $this->assertArrayHasKey('enwiki', $dbList);
 
         // This should be future-proof.
-        $this->assertEquals($dbList['enwiki'], 's1');
+        $this->assertEquals('s1', $dbList['enwiki']);
     }
 }
