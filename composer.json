@@ -46,9 +46,10 @@
 	},
 	"scripts": {
 		"test": [
+			"php -r \"putenv('SYMFONY_PHPUNIT_VERSION=' . (PHP_VERSION_ID >= 82000 ? '10.5' : (PHP_VERSION_ID >= 80000 ? '9.5' : '9.3')));\"",
 			"composer validate",
 			"phpcs -s .",
-			"simple-phpunit --display-deprecations --display-phpunit-deprecations"
+			"simple-phpunit"
 		],
 		"fix": [
 			"phpcbf"
