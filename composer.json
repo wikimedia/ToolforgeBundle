@@ -23,21 +23,20 @@
 		"ext-intl": "*",
 		"krinkle/intuition": "^2.3",
 		"mediawiki/oauthclient": "^2.0",
-		"symfony/config": "^4.4|^5.0|^7.0",
-		"symfony/http-kernel": "^4.4|^5.0|^7.0",
-		"symfony/process": "^4.4|^5.0|^7.0",
-		"symfony/routing": "^4.4|^5.0|^7.0",
-		"symfony/twig-bridge": "^4.4|^5.0|^7.0",
-		"twig/twig": "^2.4|^3.0",
-		"symfony/http-client": "^4.4|^5.0|^7.0",
-		"symfony/cache": "^4.4|^5.0|^7",
-		"doctrine/doctrine-bundle": "^2.2",
-		"symfony/dependency-injection": "^4.4|^5.1|^7",
-		"symfony/console": "^4.4|^5.2|^7"
+		"symfony/config": "^4.4|^5.0|^7.0|^8",
+		"symfony/http-kernel": "^4.4|^5.0|^7.0|^8",
+		"symfony/process": "^4.4|^5.0|^7.0|^8",
+		"symfony/routing": "^4.4|^5.0|^7.0|^8",
+		"symfony/twig-bridge": "^4.4|^5.0|^7.0|^8",
+		"symfony/http-client": "^4.4|^5.0|^7.0|^8",
+		"symfony/cache": "^4.4|^5.0|^7|^8",
+		"doctrine/doctrine-bundle": "^2|^3",
+		"symfony/dependency-injection": "^4.4|^5.1|^7|^8",
+		"symfony/console": "^4.4|^5.2|^7|^8"
 	},
 	"require-dev": {
 		"slevomat/coding-standard": "^8.0",
-		"symfony/phpunit-bridge": "^4.4|^5.1|^7"
+		"symfony/phpunit-bridge": "^4.4|^5.1|^7|^8"
 	},
 	"config": {
 		"allow-plugins": {
@@ -46,6 +45,7 @@
 	},
 	"scripts": {
 		"test": [
+			"php -r \"putenv('SYMFONY_PHPUNIT_VERSION=' . (PHP_VERSION_ID >= 82000 ? '10.5' : (PHP_VERSION_ID >= 80000 ? '9.5' : '9.3')));\"",
 			"composer validate",
 			"phpcs -s .",
 			"simple-phpunit"
