@@ -394,6 +394,7 @@ This bundle is currently in use on the following projects:
 6. [Wikimedia OCR](https://ocr.wmcloud.org)
 7. [CopyPatrol](https://copypatrol.toolforge.org)
 8. [Wikisource Contests](https://wscontest.toolforge.org)
+9. [Pageviews Analysis](https://pageviews.wmcloud.org)
 
 ## License
 
