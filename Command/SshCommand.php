@@ -26,7 +26,7 @@ class SshCommand extends Command
     public const LOGIN_URL = 'login.toolforge.org';
 
     /** @var string Follows the slice and service, i.e. 's1.web' */
-    public const HOST_SUFFIX = '.db.svc.eqiad.wmflabs';
+    public const HOST_SUFFIX = '.db.svc.wikimedia.cloud';
 
     /**
      * SshCommand constructor.
@@ -110,6 +110,16 @@ class SshCommand extends Command
         foreach ($slices as $slice) {
             $processArgs[] = '-L';
             $arg = $this->client->getPortForSlice($slice).":$slice.$host:3306";
+            if ($bindAddress) {
+                $arg = $bindAddress.':'.$arg;
+            }
+            $processArgs[] = $arg;
+        }
+        // Sections that hold only the links tables of a wiki, such as x4 for Commons. The wiki
+        // replicas expose these under an alias, i.e. 'links.commonswiki', not the section name.
+        foreach ($this->client->getConfiguredLinksSlices() as $slice => $hostPrefix) {
+            $processArgs[] = '-L';
+            $arg = $this->client->getPortForSlice($slice).":$hostPrefix.$host:3306";
             if ($bindAddress) {
                 $arg = $bindAddress.':'.$arg;
             }

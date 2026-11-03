@@ -264,6 +264,12 @@ doctrine:
         port: '%env(REPLICAS_PORT_S8)%'
         user: '%env(REPLICAS_USERNAME)%'
         password: '%env(REPLICAS_PASSWORD)%'
+      # If you need to query the links tables of Commons. See "Split links tables" below.
+      toolforge_x4:
+        host: '%env(REPLICAS_HOST_X4)%'
+        port: '%env(REPLICAS_PORT_X4)%'
+        user: '%env(REPLICAS_USERNAME)%'
+        password: '%env(REPLICAS_PASSWORD)%'
       # If you need to work with toolsdb
       toolforge_toolsdb:
         host: '%env(TOOLSDB_HOST)%'
@@ -285,9 +291,11 @@ Also adding the `REPLICAS_HOST_`, `REPLICAS_USERNAME`, `REPLICAS_PASSWORD` and e
 need to update these accordingly.
 
 In **production**, the `REPLICAS_HOST_S1` variables should be `s1.web.db.svc.wikimedia.cloud`
-(or `analytics` instead of `web`), and similarly for each section. The `REPLICAS_PORT_` vars
-should be `3306` in production. For **local environments**, use `127.0.0.1` for the host vars
-and any safe range of ports (such as 4711 for `s1`, 4712 for `s2`, and so on).
+(or `analytics` instead of `web`), and similarly for each section. The exception is `x4`, which
+the replicas expose under an alias rather than the section name, so `REPLICAS_HOST_X4` should be
+`links.commonswiki.web.db.svc.wikimedia.cloud`. The `REPLICAS_PORT_` vars should be `3306` in
+production. For **local environments**, use `127.0.0.1` for the host vars and any safe range of
+ports (such as 4711 for `s1`, 4712 for `s2`, and so on).
 
 Next, establish an SSH tunnel to the replicas (only necessary on local environments):
 
@@ -325,6 +333,48 @@ instance, since (at the time of writing) both `frwiki` and `ruwiki` live on the
 [same section](https://noc.wikimedia.org/conf/highlight.php?file=dblists/s6.dblist).
 `ReplicasClient` knows to do this because it queries (and caches) the dblists at
 https://noc.wikimedia.org.
+
+#### Split links tables
+
+Some wikis keep their links tables on a section of their own. Commons moved its links tables to
+`x4` ([T398709](https://phabricator.wikimedia.org/T398709)), so `getConnection('commonswiki')`
+no longer reaches them. Use `getLinksConnection()` instead:
+
+    $linksConn = $client->getLinksConnection('commonswiki');
+    $rows = $linksConn->executeQuery("SELECT cl_from FROM categorylinks LIMIT 10")->fetchAllAssociative();
+
+This applies to `pagelinks`, `templatelinks`, `categorylinks`, `imagelinks`, `iwlinks`,
+`langlinks`, `externallinks`, `globalimagelinks`, `existencelinks`, `linktarget` and `collation`.
+For every other table, keep using `getConnection()`.
+
+`getLinksConnection()` returns the same `Connection` as `getConnection()` for wikis whose links
+tables are not split out, so you can call it unconditionally.
+
+**A links section also carries copies of `page` and `redirect`**, so the most common joins still
+work in a single query on this connection:
+
+    $linksConn->executeQuery("SELECT page_title
+        FROM categorylinks
+        JOIN page ON page_id = cl_from
+        WHERE cl_to = 'Foo'");
+
+It carries no other table of the wiki. A query that needs `revision`, `actor`, `image`, `logging`
+or anything else has to be split in two, with the results joined in PHP. Use `hasSplitLinks()` to
+find out whether that is necessary:
+
+    if ($client->hasSplitLinks($db)) {
+        // Two queries, joined in PHP.
+    } else {
+        // One query with a JOIN.
+    }
+
+Note that `page` exists on both sections. Reading it through `getLinksConnection()` and through
+`getConnection()` can give slightly different results, because the two sections replicate
+separately.
+
+These sections have no dblist at https://noc.wikimedia.org, so `ReplicasClient` keeps the mapping
+in its `LINKS_SLICES` constant. Add a `toolforge_x4` connection as shown above to use them. If you
+do not, `toolforge:ssh` skips the section and `getLinksConnection('commonswiki')` throws.
 
 ### PHP Code Sniffer
 
