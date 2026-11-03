@@ -1,7 +1,7 @@
 Toolforge Bundle
 ================
 
-A Symfony 5/6/7 bundle that provides some common parts of web-based tools in Wikimedia Toolforge.
+A Symfony 6.4/7/8 bundle that provides some common parts of web-based tools in Wikimedia Toolforge.
 
 Features:
 
@@ -44,6 +44,14 @@ or on [Phabricator](https://phabricator.wikimedia.org/tag/community-tech) (tagge
 
 ## Installation
 
+### Requirements
+
+* PHP 8.1 or later
+* Symfony 6.4, 7 or 8
+
+Symfony 6.4 is the lowest supported version, because the bundle registers its
+routes with the `Symfony\Component\Routing\Attribute\Route` attribute.
+
 ### New project
 
 To get a new project up and running quickly
@@ -62,20 +70,9 @@ Install the code in an existing Symfony project:
 
     composer require wikimedia/toolforge-bundle
 
-Register the bundle in your `AppKernel`:
+Register the bundle in `config/bundles.php`:
 
-    class AppKernel extends Kernel {
-        public function registerBundles() {
-            $bundles = [
-                new Wikimedia\ToolforgeBundle\ToolforgeBundle(),
-            ];
-            return $bundles;
-        }
-    }
-
-Or `config/bundles.php`
-
-    Wikimedia\ToolforgeBundle\ToolforgeBundle::class => ['dev' => true],
+    Wikimedia\ToolforgeBundle\ToolforgeBundle::class => ['all' => true],
 
 ## Configuration
 
