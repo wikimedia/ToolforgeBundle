@@ -120,15 +120,22 @@ that gives you access to the currently logged-in user.
 
 While in development, it can be useful to not have to log your user in all the time.
 To force login of a particular user (but note that you still have to click the 'login' link),
-add a `logged_in_user` key to your `config/packages/toolforge.yml` file, e.g.:
+add a `logged_in_user` key to your `config/packages/toolforge.yaml` file, e.g.:
 
     toolforge:
       oauth:
         logged_in_user: '%env(LOGGED_IN_USER)%'
 
+Also give `LOGGED_IN_USER` a default in your `.env` file, e.g. `LOGGED_IN_USER=`.
+If the environment variable does not exist, Symfony throws an `EnvNotFoundException`.
+An empty value disables the forced login.
+
+The forced login obeys the `callback` parameter of the login link
+in the same way as a real OAuth login. See 'Redirecting after login' below.
+
 In controllers, you can test whether the user is logged in by checking:
 
-    $this->get('session')->get('logged_in_user')
+    $request->getSession()->get('logged_in_user')
 
 #### Redirecting after login
 
@@ -151,6 +158,9 @@ The URL for the login link ends up being something like:
 
 Note the double-encoding of the URL used for the value of `redirect`. In this example the user will
 ultimately be redirected back to `https://my-tool.toolforge.org/my-page?foo=bar`.
+
+The bundle ignores the `callback` if it does not start with the URL of the `oauth_callback` route.
+If there is no usable `callback`, the user goes to the `home` route after login.
 
 ### Internationalization (Intuition and jQuery.i18n)
 
